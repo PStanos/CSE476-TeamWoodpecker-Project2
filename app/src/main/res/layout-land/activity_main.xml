@@ -28,14 +28,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/player_1_name"
-            android:id="@+id/player1Text"
+            android:text="@string/username"
+            android:id="@+id/username_label"
             android:textSize="18sp" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/player1Name"
+            android:id="@+id/username"
             android:layout_marginBottom="5dp"
             android:inputType="textCapWords" />
 
@@ -43,14 +43,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/player_2_name"
-            android:id="@+id/player2Text"
+            android:text="@string/password"
+            android:id="@+id/password_label"
             android:textSize="18sp" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/player2Name"
+            android:id="@+id/password"
             android:layout_marginBottom="5dp"
             android:inputType="textCapWords" />
 
@@ -64,14 +64,22 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/start_game"
-                android:id="@+id/startGame"
+                android:text="@string/login"
+                android:id="@+id/login_button"
                 android:layout_gravity="center_horizontal"
-                android:onClick="onStartGame"
+                android:onClick="onLogIn"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:textSize="14sp"
                 android:layout_marginBottom="5dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/create_user"
+                android:id="@+id/create_user_button"
+                android:layout_gravity="center_horizontal"
+                android:onClick="onCreateUser" />
 
             <Button
                 android:layout_width="wrap_content"

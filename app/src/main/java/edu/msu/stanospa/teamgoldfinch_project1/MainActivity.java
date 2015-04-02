@@ -18,16 +18,18 @@ public class MainActivity extends ActionBarActivity {
         game = new Game(this);
     }
 
-    public void onStartGame(View view) {
-        String name1 = ((EditText)findViewById(R.id.player1Name)).getText().toString();
-        String name2 = ((EditText)findViewById(R.id.player2Name)).getText().toString();
+    public void onLogIn(View view) {
+        String username = ((EditText)findViewById(R.id.username)).getText().toString();
+        String password = ((EditText)findViewById(R.id.password)).getText().toString();
 
-        game.setPlayerNames(name1, name2);
+        //TODO: check if user exists. if not, Toast a login error
+
+        game.setPlayerNames(username, password);  //TODO: set username for local player only
 
         Bundle bundle = new Bundle();
         game.saveInstanceState(bundle, this);
 
-        Intent intent = new Intent(this, SelectionActivity.class);
+        Intent intent = new Intent(this, AwaitActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -40,5 +42,10 @@ public class MainActivity extends ActionBarActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void onCreateUser(View view){
+        Intent intent = new Intent(this, CreateUserActivity.class);
+        startActivity(intent);
     }
 }
