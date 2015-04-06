@@ -1,0 +1,47 @@
+
+Project 2 Submission
+
+Group Name: Woodpecker
+
+When you have completed the project, complete the following form and include it with your project. Include this file as a text file in the folder with your project when you turn it in. 
+
+For the Checkpoint, Describe a sequence of operations to create a new account and log onto the server:
+
+A functionality checklist will not be provided for the project. Treat this as you would a request from a client and identify what the client requires. 
+
+Member 1: Brian Chivers
+
+Responsiblity:
+Server-Side communications
+
+
+Member 2: Paul Stanos
+
+Responsiblity:
+Client-side communications
+
+
+Member 3: Alex Kambeitz
+
+Responsiblity:
+Activity Sequencing
+
+
+
+
+Provide instructions on how to reach the first editing activity if the login button is not yet functional.
+
+User account the server-side communications is running under:
+chiversb@cse.msu.edu
+
+Paths to all server-side scripts: (Such as https://www.cse.msu.edu/~carter/project2/login.php).
+
+http://webdev.cse.msu.edu/~chiversb/cse476/proj02/login.php
+http://webdev.cse.msu.edu/~chiversb/cse476/proj02/newuser.php
+
+Where in the code the passive connection timeout is set (provide a script name and line number):
+
+Calls in the code to the server (provide a class name and function, or URL used for debugging):
+
+
+
