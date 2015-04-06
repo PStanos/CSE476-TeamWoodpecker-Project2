@@ -6,6 +6,11 @@ Group Name: Woodpecker
 When you have completed the project, complete the following form and include it with your project. Include this file as a text file in the folder with your project when you turn it in. 
 
 For the Checkpoint, Describe a sequence of operations to create a new account and log onto the server:
+	The first activity presented to the user is a login page. To create a new user, click the Create User button at the bottom.
+	Once on that page, enter a username and a password. If the confirm password does not match, an error is displayed. Once the
+	information has been entered, click the Create New User button. If successful, the user is taken back to the main activity.
+	To log in, enter the username and password into the fields and click the Login button. If successful, the user is taken to
+	a dummy activity informing them to wait for the other user.
 
 A functionality checklist will not be provided for the project. Treat this as you would a request from a client and identify what the client requires. 
 
@@ -30,6 +35,7 @@ Activity Sequencing
 
 
 Provide instructions on how to reach the first editing activity if the login button is not yet functional.
+	See above login details on how to reach the first non-login activity.
 
 User account the server-side communications is running under:
 chiversb@cse.msu.edu
@@ -42,6 +48,8 @@ http://webdev.cse.msu.edu/~chiversb/cse476/proj02/newuser.php
 Where in the code the passive connection timeout is set (provide a script name and line number):
 
 Calls in the code to the server (provide a class name and function, or URL used for debugging):
-
+	Class: Cloud.java
+	Login function: attemptLogin(final View view, String userId, String password)
+	Create user function: createUser(final View view, String userId, String password)
 
 
