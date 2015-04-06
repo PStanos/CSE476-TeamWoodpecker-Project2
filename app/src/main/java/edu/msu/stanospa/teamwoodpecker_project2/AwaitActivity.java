@@ -1,4 +1,4 @@
-package edu.msu.stanospa.teamgoldfinch_project1;
+package edu.msu.stanospa.teamwoodpecker_project2;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -8,27 +8,32 @@ import android.view.MenuItem;
 import android.view.View;
 
 
-public class CreateUserActivity extends ActionBarActivity {
+public class AwaitActivity extends ActionBarActivity {
+
+    Bundle hold;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_user);
+        setContentView(R.layout.activity_await);
+
     }
 
+    public void onPlayersConnected(View view) { // TODO: remove view param (button press) and call when network activity (thread) shows connection
+        Intent intent = new Intent(this, SelectionActivity.class);
+        intent.putExtras( getIntent().getExtras() );
+        startActivity(intent);
+    }
 
-    public void onCreateNewUser(View view){
-        //TODO: handle creating new user here, then return
-        //TODO: return the newly created username and populate the login field with it?
+    public void onQuit(View view){  // TODO: make this a menu option, not a button
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_create_user, menu);
+        getMenuInflater().inflate(R.menu.menu_await, menu);
         return true;
     }
 
@@ -46,4 +51,5 @@ public class CreateUserActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

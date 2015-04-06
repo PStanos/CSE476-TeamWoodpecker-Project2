@@ -1,4 +1,4 @@
-package edu.msu.stanospa.teamgoldfinch_project1;
+package edu.msu.stanospa.teamwoodpecker_project2;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

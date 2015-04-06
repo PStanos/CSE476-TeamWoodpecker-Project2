@@ -6,7 +6,7 @@
     <view
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        class="edu.msu.stanospa.teamgoldfinch_project1.GameView"
+        class="edu.msu.stanospa.teamwoodpecker_project2.GameView"
         android:id="@+id/gameView"
         android:layout_weight=".9" />
 

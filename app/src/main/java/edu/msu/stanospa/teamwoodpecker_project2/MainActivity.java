@@ -1,4 +1,4 @@
-package edu.msu.stanospa.teamgoldfinch_project1;
+package edu.msu.stanospa.teamwoodpecker_project2;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -19,11 +19,27 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void onLogIn(View view) {
-        String username = ((EditText)findViewById(R.id.username)).getText().toString();
-        String password = ((EditText)findViewById(R.id.password)).getText().toString();
+        final String username = ((EditText)findViewById(R.id.username)).getText().toString();
+        final String password = ((EditText)findViewById(R.id.password)).getText().toString();
 
-        //TODO: check if user exists. if not, Toast a login error
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
 
+                Cloud cloud = new Cloud();
+                boolean loginSuccess = cloud.attemptLogin(username, password);
+
+                if(loginSuccess) {
+                    onLoginSuccessful(username, password);
+                }
+                else {
+                    // TODO: toast
+                }
+            }
+        }).start();
+    }
+
+    private void onLoginSuccessful(String username, String password) {
         game.setPlayerNames(username, password);  //TODO: set username for local player only
 
         Bundle bundle = new Bundle();
