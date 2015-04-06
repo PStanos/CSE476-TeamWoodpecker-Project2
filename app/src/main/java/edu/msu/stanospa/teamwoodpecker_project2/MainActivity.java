@@ -2,10 +2,11 @@ package edu.msu.stanospa.teamwoodpecker_project2;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -18,7 +19,7 @@ public class MainActivity extends ActionBarActivity {
         game = new Game(this);
     }
 
-    public void onLogIn(View view) {
+    public void onLogIn(final View view) {
         final String username = ((EditText)findViewById(R.id.username)).getText().toString();
         final String password = ((EditText)findViewById(R.id.password)).getText().toString();
 
@@ -27,13 +28,10 @@ public class MainActivity extends ActionBarActivity {
             public void run() {
 
                 Cloud cloud = new Cloud();
-                boolean loginSuccess = cloud.attemptLogin(username, password);
+                boolean loginSuccess = cloud.attemptLogin(view, username, password);
 
                 if(loginSuccess) {
                     onLoginSuccessful(username, password);
-                }
-                else {
-                    // TODO: toast
                 }
             }
         }).start();

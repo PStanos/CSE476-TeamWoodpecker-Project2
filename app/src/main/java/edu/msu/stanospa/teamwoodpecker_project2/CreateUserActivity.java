@@ -1,11 +1,15 @@
 package edu.msu.stanospa.teamwoodpecker_project2;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class CreateUserActivity extends ActionBarActivity {
@@ -17,13 +21,42 @@ public class CreateUserActivity extends ActionBarActivity {
     }
 
 
-    public void onCreateNewUser(View view){
-        //TODO: handle creating new user here, then return
+    public void onCreateNewUser(final View view){
+        final String username = ((EditText)findViewById(R.id.newUsername)).getText().toString();
+        final String password = ((EditText)findViewById(R.id.newPassword)).getText().toString();
+        final String confirmPassword = ((EditText)findViewById(R.id.confirmPassword)).getText().toString();
+
+        if(!password.equals(confirmPassword)) {
+            view.post(new Runnable() {
+
+                @Override
+                public void run() {
+                    Toast.makeText(view.getContext(), R.string.password_mismatch_toast, Toast.LENGTH_SHORT).show();
+                }
+
+            });
+            return;
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+            Cloud cloud = new Cloud();
+            boolean loginSuccess = cloud.createUser(view, username, password);
+
+            if(loginSuccess) {
+                onUserCreationSuccessful();
+            }
+            }
+        }).start();
         //TODO: return the newly created username and populate the login field with it?
+    }
+
+    private void onUserCreationSuccessful() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

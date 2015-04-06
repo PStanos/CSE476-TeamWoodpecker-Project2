@@ -38,5 +38,11 @@
     <string name="new_password">New Password:</string>
     <string name="confirm_password">Confirm Password:</string>
     <string name="create_user_button">Create New User</string>
+    <string name="password_mismatch_toast">The passwords entered do not match</string>
+    <string name="user_exists_toast">Failed to create user: user name already used</string>
+    <string name="create_user_failed_generic_toast">Failed to create user</string>
+    <string name="user_does_not_exist_toast">Failed to login: invalid user name</string>
+    <string name="incorrect_password_toast">Failed to login: incorrect password</string>
+    <string name="login_failed_generic_toast">Failed to login</string>
 
 </resources>
