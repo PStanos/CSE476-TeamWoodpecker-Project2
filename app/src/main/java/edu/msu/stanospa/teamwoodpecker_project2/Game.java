@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
+import org.xmlpull.v1.XmlSerializer;
+
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -356,5 +359,27 @@ public class Game implements Serializable {
     }
     public void saveInstanceState(Bundle bundle, Context context) {
         bundle.putSerializable(context.getString(R.string.game_state), this);
+    }
+
+    public void serialize(XmlSerializer serializer) throws IOException {
+        serializer.startTag(null, "game_data");
+        serializer.attribute(null, "playerTurn", String.valueOf(playerTurn));
+        serializer.attribute(null, "roundNum", String.valueOf(roundNum));
+        serializer.attribute(null, "gameState", String.valueOf(state));
+
+        serializer.startTag(null, "players");
+        player1.serialize(serializer);
+        player2.serialize(serializer);
+        serializer.endTag(null, "players");
+
+        serializer.startTag(null, "birds");
+
+        for(int itr = 0; itr < birds.size(); itr++) {
+            birds.get(itr).serialize(serializer);
+        }
+
+        serializer.endTag(null, "birds");
+
+        serializer.endTag(null, "game_data");
     }
 }

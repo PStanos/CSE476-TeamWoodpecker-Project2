@@ -2,6 +2,9 @@ package edu.msu.stanospa.teamwoodpecker_project2;
 
 import android.util.Log;
 
+import org.xmlpull.v1.XmlSerializer;
+
+import java.io.IOException;
 import java.io.Serializable;
 
 public class Player implements Serializable {
@@ -44,5 +47,16 @@ public class Player implements Serializable {
 
     public Player(String name) {
         this.name = name;
+    }
+
+    public void serialize(XmlSerializer serializer) throws IOException {
+        serializer.startTag(null, "player");
+        serializer.attribute(null, "name", name);
+
+        if(selectedBird != null) {
+            selectedBird.serialize(serializer);
+        }
+
+        serializer.endTag(null, "player");
     }
 }

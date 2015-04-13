@@ -7,6 +7,9 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
 
+import org.xmlpull.v1.XmlSerializer;
+
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -181,5 +184,13 @@ public class Bird implements Serializable {
         canvas.restore();
     }
 
-
+    public void serialize(XmlSerializer serializer) throws IOException {
+        serializer.startTag(null, "bird");
+        serializer.attribute(null, "id", String.valueOf(id));
+        serializer.attribute(null, "relX", String.valueOf(relX));
+        serializer.attribute(null, "relY", String.valueOf(relY));
+        serializer.attribute(null, "relY", String.valueOf(relY));
+        serializer.attribute(null, "relY", String.valueOf(relY));
+        serializer.endTag(null, "bird");
+    }
 }
