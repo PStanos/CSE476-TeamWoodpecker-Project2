@@ -17,6 +17,7 @@ import java.net.URL;
 public class Cloud {
     private static final String LOGIN_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/login.php";
     private static final String CREATE_USER_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/newuser.php";
+    private static final String JOIN_GAME_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/waitgame.php";
 
     public boolean attemptLogin(final View view, String userId, String password) {
 
