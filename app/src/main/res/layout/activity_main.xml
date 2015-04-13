@@ -63,6 +63,14 @@
         android:layout_marginBottom="5dp"
         android:inputType="textCapWords" />
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/remember"
+        android:id="@+id/checkRemember"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.05" />
+
     <LinearLayout
 
         android:orientation="horizontal"
