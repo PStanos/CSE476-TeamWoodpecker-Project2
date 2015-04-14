@@ -48,6 +48,10 @@
             android:name=".WaitOnUpdateActivity"
             android:label="@string/title_activity_wait_on_update" >
         </activity>
+        <activity
+            android:name=".WaitOnSelectActivity"
+            android:label="@string/title_activity_wait_on_select" >
+        </activity>
     </application>
 
 </manifest>

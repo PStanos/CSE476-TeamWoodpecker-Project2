@@ -20,6 +20,13 @@ public class AwaitActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_await);
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Cloud cloud = new Cloud();
+            }
+        }).start();
+
     }
 
     public void onPlayersConnected(View view) { // TODO: remove view param (button press) and call when network activity (thread) shows connection

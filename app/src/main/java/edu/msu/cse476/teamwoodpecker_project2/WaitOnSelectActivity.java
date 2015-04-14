@@ -15,7 +15,7 @@ import java.io.InterruptedIOException;
 
 import edu.msu.cse476.teamwoodpecker_project2.R;
 
-public class WaitOnUpdateActivity extends DialogFragment {
+public class WaitOnSelectActivity extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -43,13 +43,20 @@ public class WaitOnUpdateActivity extends DialogFragment {
             @Override
             public void run() {
                 Cloud cloud = new Cloud();
-                Game updatedGame;
-                updatedGame = cloud.waitOnGame(viewGame, viewGame.getGame().getLocalName(), "s");
-                if(updatedGame == null) {
-                    updatedGame = viewGame.getGame();
-                }
-                viewGame.setGame(updatedGame);
 
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+
+                }
+/*
+                viewGame.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        // TODO: UI update work here
+                    }
+                });
+*/
                 dismiss();
 
             }

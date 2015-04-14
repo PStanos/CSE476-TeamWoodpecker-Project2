@@ -49,5 +49,7 @@
     <string name="waiting_title">Waiting on Player</string>
     <string name="waiting_text">Waiting for your opponent to play...</string>
     <string name="quit_game">Quit Game</string>
+    <string name="update_game_connection_failed">Failed to update game</string>
+    <string name="title_activity_wait_on_select">WaitOnSelectActivity</string>
 
 </resources>

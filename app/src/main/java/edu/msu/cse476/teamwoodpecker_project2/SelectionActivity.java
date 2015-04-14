@@ -53,6 +53,11 @@ public class SelectionActivity extends ActionBarActivity {
             Log.i("onCreate()", "restoring state...");
             selectionView.loadInstanceState(bundle);
         }
+
+        if( !game.getLocalName().equals("") && !game.getLocalName().equals(game.getCurrentPlayerName())) {
+            WaitOnSelectActivity dlgWaitSelect = new WaitOnSelectActivity();
+            dlgWaitSelect.show(getFragmentManager(), "wait");
+        }
     }
 
     /**
@@ -70,6 +75,7 @@ public class SelectionActivity extends ActionBarActivity {
             selectionView.setPlayerSelection(game);
 
             if (!game.inSelectionState()){
+
                 Intent intent = new Intent(this, GameActivity.class);
                 intent.putExtras(bundle);
                 intent.putExtras(intent.getExtras());
@@ -77,8 +83,14 @@ public class SelectionActivity extends ActionBarActivity {
                 startActivity(intent);
                 finish();
             }
-            else
-                setPlayerSelectionText();
+            else {
+                if(!game.getLocalName().equals(game.getCurrentPlayerName())) {
+                    WaitOnSelectActivity dlgWaitSelect = new WaitOnSelectActivity();
+                    dlgWaitSelect.show(getFragmentManager(), "wait");
+                }
+                else
+                    setPlayerSelectionText();
+            }
 
         } else {
             if(noBirdToast == null) {
