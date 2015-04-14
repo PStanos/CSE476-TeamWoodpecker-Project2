@@ -26,7 +26,9 @@ public class MainActivity extends ActionBarActivity {
     private EditText password;
     private CheckBox remember;
 
+    private static final String LOCAL_NAME = "local_name";
     private static final String FILE_REMEMBER = "REMEMBER_ID_PASSWORD";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +109,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void onLoginSuccessful(String username, String password) {
-        game.setPlayerNames(username, password);  //TODO: set username for local player only
+        game.setPlayerNames(username, getString(R.string.opponent_name));  //TODO: set username for local player only
 
         Bundle bundle = new Bundle();
         game.saveInstanceState(bundle, this);
@@ -115,9 +117,10 @@ public class MainActivity extends ActionBarActivity {
         Cloud cloud = new Cloud();
         cloud.submitUpdatedGame(this.getBaseContext(), game, username, password);
 
-        //Intent intent = new Intent(this, AwaitActivity.class);
-        //intent.putExtras(bundle);
-        //startActivity(intent);
+        Intent intent = new Intent(this, AwaitActivity.class);
+        intent.putExtras(bundle);
+        intent.putExtra(LOCAL_NAME, username);
+        startActivity(intent);
     }
 
     public void onViewInstructions(View view) {

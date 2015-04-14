@@ -44,5 +44,6 @@
     <string name="user_does_not_exist_toast">Failed to login: invalid user name</string>
     <string name="incorrect_password_toast">Failed to login: incorrect password</string>
     <string name="login_failed_generic_toast">Failed to login</string>
+    <string name="opponent_name">Opponent</string>
 
 </resources>

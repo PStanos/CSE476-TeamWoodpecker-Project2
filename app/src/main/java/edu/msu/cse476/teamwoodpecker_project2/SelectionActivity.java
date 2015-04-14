@@ -22,6 +22,8 @@ public class SelectionActivity extends ActionBarActivity {
 
     private Toast birdSelectedToast;
 
+    private static final String LOCAL_NAME = "local_name";
+
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
@@ -37,6 +39,7 @@ public class SelectionActivity extends ActionBarActivity {
 
         if(bundle != null) {
             game = (Game)bundle.getSerializable(getString(R.string.game_state));
+            game.setLocalName(getIntent().getExtras().getString(LOCAL_NAME));
         }
         else {
             game = (Game)getIntent().getExtras().getSerializable(getString(R.string.game_state));
@@ -69,6 +72,8 @@ public class SelectionActivity extends ActionBarActivity {
             if (!game.inSelectionState()){
                 Intent intent = new Intent(this, GameActivity.class);
                 intent.putExtras(bundle);
+                intent.putExtras(intent.getExtras());
+                intent.putExtra(LOCAL_NAME, getIntent().getExtras().getString(LOCAL_NAME) );
                 startActivity(intent);
                 finish();
             }

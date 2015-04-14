@@ -13,6 +13,10 @@ public class GameActivity extends ActionBarActivity {
 
     private GameView gameView;
 
+    private static final String LOCAL_NAME = "local_name";
+    private String local_username;
+
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -24,10 +28,17 @@ public class GameActivity extends ActionBarActivity {
 
         if(bundle != null) {
             gameView.loadInstanceState(bundle, this);
+
         }
         else {
             Game game = (Game)getIntent().getExtras().getSerializable(getString(R.string.game_state));
             gameView.setGame(game);
+        }
+
+        local_username = getIntent().getExtras().getString(LOCAL_NAME);
+
+        if(gameView.getGame() != null && local_username != null) {
+            gameView.getGame().setLocalName(local_username);
         }
 
         TextView tv = (TextView)findViewById(R.id.placementText);
@@ -35,6 +46,7 @@ public class GameActivity extends ActionBarActivity {
                 gameView.getGame().getCurrentPlayerName()));
 
         gameView.reloadBirds();
+
     }
 
     public void onPlaceBird(View view) {

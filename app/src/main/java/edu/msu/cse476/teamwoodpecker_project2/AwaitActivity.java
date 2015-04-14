@@ -12,6 +12,9 @@ public class AwaitActivity extends ActionBarActivity {
 
     Bundle hold;
 
+    private static final String LOCAL_NAME = "local_name";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +24,8 @@ public class AwaitActivity extends ActionBarActivity {
 
     public void onPlayersConnected(View view) { // TODO: remove view param (button press) and call when network activity (thread) shows connection
         Intent intent = new Intent(this, SelectionActivity.class);
-        intent.putExtras( getIntent().getExtras() );
+        intent.putExtras(getIntent().getExtras());
+        intent.putExtra(LOCAL_NAME, getIntent().getExtras().getString(LOCAL_NAME) );
         startActivity(intent);
     }
 

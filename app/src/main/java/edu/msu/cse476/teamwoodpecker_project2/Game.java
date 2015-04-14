@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -112,6 +113,12 @@ public class Game implements Serializable {
      */
     private GameState state = GameState.birdSelection;
 
+    /*
+    * identifiers for whether current player is P1 or P2 in game
+     */
+    private int localPlayer;
+    private String localName;
+
     /**
      * @param context the current context
      */
@@ -125,6 +132,9 @@ public class Game implements Serializable {
         // Birds will be scaled so that the game is "1.5 ostriches" wide
         Bitmap scaleBird = BitmapFactory.decodeResource(context.getResources(), R.drawable.ostrich);
         scalingWidth = scaleBird.getWidth()*1.5f;
+
+        localPlayer = 0;
+        localName = "";
     }
 
     /**
@@ -141,11 +151,34 @@ public class Game implements Serializable {
      */
     public boolean inGameOverState() { return state.equals(GameState.gameOver); }
 
+
+    public String getLocalName() {
+        return localName;
+    }
+
+    public void setLocalName(String localName) {
+        this.localName = localName;
+    }
+
     /**
      * Get the current player who's turn it is
      * @return the player who's turn it is
      */
     private Player getCurrentPlayer() {
+        if(localPlayer == 0){
+            if(localName.equals(player1.getName())){
+                localPlayer = 1;
+            }
+            else if(localName.equals(player2.getName())){
+                localPlayer = 2;
+            }
+            else{
+                localPlayer = 0;
+            }
+        }
+
+        Log.i("LOCALPLAYER", localName+" is P"+localPlayer+"; round/turn = "+roundNum+"/"+playerTurn);
+
         if(playerTurn == 0) {
             if(roundNum % 2 == 0) return player1;
             else return player2;
