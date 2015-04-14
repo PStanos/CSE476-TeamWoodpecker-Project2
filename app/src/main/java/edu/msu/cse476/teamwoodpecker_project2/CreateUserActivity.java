@@ -1,14 +1,12 @@
-package edu.msu.stanospa.teamwoodpecker_project2;
+package edu.msu.cse476.teamwoodpecker_project2;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 

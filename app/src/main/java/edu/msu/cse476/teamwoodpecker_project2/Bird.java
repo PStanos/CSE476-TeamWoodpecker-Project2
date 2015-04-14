@@ -1,4 +1,4 @@
-package edu.msu.stanospa.teamwoodpecker_project2;
+package edu.msu.cse476.teamwoodpecker_project2;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
 import java.io.IOException;
@@ -61,6 +63,7 @@ public class Bird implements Serializable {
      */
     private float y;
 
+    private Bird() { }
 
     public Bird(Context context, int id, float relX, float relY) {
         this.id = id;
@@ -189,8 +192,22 @@ public class Bird implements Serializable {
         serializer.attribute(null, "id", String.valueOf(id));
         serializer.attribute(null, "relX", String.valueOf(relX));
         serializer.attribute(null, "relY", String.valueOf(relY));
-        serializer.attribute(null, "relY", String.valueOf(relY));
-        serializer.attribute(null, "relY", String.valueOf(relY));
         serializer.endTag(null, "bird");
+    }
+
+    public static Bird deserialize(Context context, XmlPullParser parser) throws IOException, XmlPullParserException {
+        parser.nextTag();
+        parser.require(XmlPullParser.START_TAG, null, "bird");
+
+        int id = Integer.parseInt(parser.getAttributeValue(null, "id"));
+        float relX = Float.parseFloat(parser.getAttributeValue(null, "relX"));
+        float relY = Float.parseFloat(parser.getAttributeValue(null, "relY"));
+
+        parser.nextTag();
+        parser.require(XmlPullParser.END_TAG, null, "bird");
+
+        Bird bird = new Bird(context, id, relX, relY);
+
+        return bird;
     }
 }

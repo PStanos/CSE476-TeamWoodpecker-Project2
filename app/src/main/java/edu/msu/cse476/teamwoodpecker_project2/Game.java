@@ -1,4 +1,4 @@
-package edu.msu.stanospa.teamwoodpecker_project2;
+package edu.msu.cse476.teamwoodpecker_project2;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
 import java.io.IOException;
@@ -206,6 +208,11 @@ public class Game implements Serializable {
         state = GameState.birdSelection;
     }
 
+    public void setPlayers(Player p1, Player p2) {
+        player1 = p1;
+        player2 = p2;
+    }
+
     /**
      * Set the current player's bird selection
      * @param selection the bird selected to place this round
@@ -232,6 +239,10 @@ public class Game implements Serializable {
         birds.add(getCurrentPlayer().getSelectedBird());
 
         advanceTurn();
+    }
+
+    private void addBird(Bird bird) {
+        birds.add(bird);
     }
 
     /**
@@ -373,6 +384,7 @@ public class Game implements Serializable {
         serializer.endTag(null, "players");
 
         serializer.startTag(null, "birds");
+        serializer.attribute(null, "numBirds", String.valueOf(birds.size()));
 
         for(int itr = 0; itr < birds.size(); itr++) {
             birds.get(itr).serialize(serializer);
@@ -381,5 +393,34 @@ public class Game implements Serializable {
         serializer.endTag(null, "birds");
 
         serializer.endTag(null, "game_data");
+    }
+
+    public static Game deserialize(Context context, XmlPullParser parser) throws IOException, XmlPullParserException {
+        Game game = new Game(context);
+
+        parser.nextTag();
+        parser.require(XmlPullParser.START_TAG, null, "game_data");
+        parser.nextTag();
+        parser.require(XmlPullParser.START_TAG, null, "players");
+        Player player1 = Player.deserialize(context, parser);
+        Player player2 = Player.deserialize(context, parser);
+
+        game.setPlayers(player1, player2);
+        parser.require(XmlPullParser.END_TAG, null, "players");
+
+        parser.require(XmlPullParser.START_TAG, null, "birds");
+
+        int numBirds = Integer.getInteger(parser.getAttributeValue(null, "numBirds"));
+
+        for(int itr = 0; itr < numBirds; itr++) {
+            game.addBird(Bird.deserialize(context, parser));
+        }
+
+        parser.nextTag();
+        parser.require(XmlPullParser.END_TAG, null, "birds");
+
+        parser.require(XmlPullParser.END_TAG, null, "game_data");
+
+        return game;
     }
 }

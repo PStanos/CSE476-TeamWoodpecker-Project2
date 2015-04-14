@@ -1,7 +1,10 @@
-package edu.msu.stanospa.teamwoodpecker_project2;
+package edu.msu.cse476.teamwoodpecker_project2;
 
+import android.content.Context;
 import android.util.Log;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlSerializer;
 
 import java.io.IOException;
@@ -45,6 +48,8 @@ public class Player implements Serializable {
      */
     private Bird selectedBird;
 
+    private Player() { }
+
     public Player(String name) {
         this.name = name;
     }
@@ -58,5 +63,16 @@ public class Player implements Serializable {
         }
 
         serializer.endTag(null, "player");
+    }
+
+    public static Player deserialize(Context context, XmlPullParser parser) throws IOException, XmlPullParserException {
+        Player player = new Player();
+
+        parser.nextTag();
+        parser.require(XmlPullParser.START_TAG, null, "player");
+
+        player.setSelectedBird(Bird.deserialize(context, parser));
+
+        return player;
     }
 }

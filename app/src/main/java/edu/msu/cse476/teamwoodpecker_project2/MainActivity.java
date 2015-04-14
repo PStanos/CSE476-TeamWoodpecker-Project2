@@ -1,4 +1,4 @@
-package edu.msu.stanospa.teamwoodpecker_project2;
+package edu.msu.cse476.teamwoodpecker_project2;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,12 +8,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -114,9 +112,12 @@ public class MainActivity extends ActionBarActivity {
         Bundle bundle = new Bundle();
         game.saveInstanceState(bundle, this);
 
-        Intent intent = new Intent(this, AwaitActivity.class);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        Cloud cloud = new Cloud();
+        cloud.submitUpdatedGame(this.getBaseContext(), game, username, password);
+
+        //Intent intent = new Intent(this, AwaitActivity.class);
+        //intent.putExtras(bundle);
+        //startActivity(intent);
     }
 
     public void onViewInstructions(View view) {

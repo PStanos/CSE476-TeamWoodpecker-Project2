@@ -1,4 +1,4 @@
-package edu.msu.stanospa.teamwoodpecker_project2;
+package edu.msu.cse476.teamwoodpecker_project2;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
