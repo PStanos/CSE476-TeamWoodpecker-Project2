@@ -47,6 +47,12 @@ public class GameActivity extends ActionBarActivity {
 
         gameView.reloadBirds();
 
+        if(!gameView.getGame().getLocalName().equals(gameView.getGame().getCurrentPlayerName())) {
+            // if game is in waiting state:
+            WaitOnUpdateActivity dlgWait = new WaitOnUpdateActivity();
+            dlgWait.show(getFragmentManager(), "wait");
+        }
+
     }
 
     public void onPlaceBird(View view) {
@@ -55,28 +61,32 @@ public class GameActivity extends ActionBarActivity {
         Bundle bundle = new Bundle();
         gameView.getGame().saveInstanceState(bundle, this);
 
-        if (gameView.inGameOverState()) {
+            if (gameView.inGameOverState()) {
 
-            Intent intent = new Intent(this, FinalScoreActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtras(bundle);
-            startActivity(intent);
-            finish();
-        }
+                Intent intent = new Intent(this, FinalScoreActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
+            } else if (gameView.inSelectionState()) {
 
-        else if (gameView.inSelectionState()) {
-
-            Intent intent = new Intent(this, SelectionActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtras(bundle);
-            startActivity(intent);
-            finish();
-        }
+                Intent intent = new Intent(this, SelectionActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
+            }
+            else{
+                if(!gameView.getGame().getLocalName().equals(gameView.getGame().getCurrentPlayerName())) {
+                    // if game is in waiting state:
+                    WaitOnUpdateActivity dlgWait = new WaitOnUpdateActivity();
+                    dlgWait.show(getFragmentManager(), "wait");
+                }
+            }
 
         TextView tv = (TextView)findViewById(R.id.placementText);
         tv.setText(String.format(getString(R.string.bird_placement_info),
                 gameView.getGame().getCurrentPlayerName()));
-
 
     }
 

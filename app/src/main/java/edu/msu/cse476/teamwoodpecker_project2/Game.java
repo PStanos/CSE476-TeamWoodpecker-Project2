@@ -1,5 +1,8 @@
 package edu.msu.cse476.teamwoodpecker_project2;
 
+import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,7 +23,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Game implements Serializable {
+public class Game implements Serializable{
     private static final long serialVersionUID = 1L;
 
     /**

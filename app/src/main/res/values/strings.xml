@@ -45,5 +45,9 @@
     <string name="incorrect_password_toast">Failed to login: incorrect password</string>
     <string name="login_failed_generic_toast">Failed to login</string>
     <string name="opponent_name">Opponent</string>
+    <string name="title_activity_wait_on_update">WaitOnUpdateActivity</string>
+    <string name="waiting_title">Waiting on Player</string>
+    <string name="waiting_text">Waiting for your opponent to play...</string>
+    <string name="quit_game">Quit Game</string>
 
 </resources>
