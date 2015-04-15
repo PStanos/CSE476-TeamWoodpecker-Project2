@@ -9,13 +9,15 @@ import android.view.View;
 
 
 public class AwaitActivity extends ActionBarActivity {
-
     Bundle hold;
 
     private static final String LOCAL_NAME = "local_name";
+    private static final String LOCAL_PASSWORD = "local_password";
 
     private Game game = null;
     private String userName = null;
+    private String password = null;
+    private Thread waitOnGameThread = null;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -24,17 +26,19 @@ public class AwaitActivity extends ActionBarActivity {
 
         if(bundle == null) {
             userName = getIntent().getExtras().getString(LOCAL_NAME);
+            password = getIntent().getExtras().getString(LOCAL_PASSWORD);
         }
         else {
             userName = bundle.getString(LOCAL_NAME);
+            password = bundle.getString(LOCAL_PASSWORD);
         }
 
-        new Thread(new Runnable() {
+        waitOnGameThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 Cloud cloud = new Cloud();
 
-                Cloud.NewGameResponse response = cloud.waitForGame(getBaseContext(), userName, "P");
+                Cloud.NewGameResponse response = cloud.waitForGame(getBaseContext(), userName, password);
 
                 if(!response.isConnected()) {
                     // TODO: What do we do if the server returns an error?
@@ -51,7 +55,9 @@ public class AwaitActivity extends ActionBarActivity {
 
                 onPlayersConnected();
             }
-        }).start();
+        });
+
+        waitOnGameThread.start();
     }
 
     public void onPlayersConnected() {
@@ -64,6 +70,10 @@ public class AwaitActivity extends ActionBarActivity {
     }
 
     public void onQuit(View view){  // TODO: make this a menu option, not a button
+        if(waitOnGameThread != null) {
+            waitOnGameThread.interrupt();
+        }
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -90,4 +100,12 @@ public class AwaitActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+
+        if(waitOnGameThread != null) {
+            waitOnGameThread.interrupt();
+        }
+    }
 }

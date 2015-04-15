@@ -27,6 +27,7 @@ public class MainActivity extends ActionBarActivity {
     private CheckBox remember;
 
     private static final String LOCAL_NAME = "local_name";
+    private static final String LOCAL_PASSWORD = "local_password";
     private static final String FILE_REMEMBER = "REMEMBER_ID_PASSWORD";
 
     @Override
@@ -116,6 +117,7 @@ public class MainActivity extends ActionBarActivity {
 
         Intent intent = new Intent(this, AwaitActivity.class);
         intent.putExtra(LOCAL_NAME, username);
+        intent.putExtra(LOCAL_PASSWORD, password);
         startActivity(intent);
     }
 
