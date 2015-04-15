@@ -56,7 +56,13 @@ public class AwaitActivity extends ActionBarActivity {
                 }
                 else {
                     game = cloud.waitOnOpponent(getBaseContext(), userName, password);
-                    onPlayersConnected();
+
+                    if(game != null) {
+                        onPlayersConnected();
+                    }
+                    else {
+                        onGameCreationFailed();
+                    }
                     return;
                 }
 
@@ -82,7 +88,7 @@ public class AwaitActivity extends ActionBarActivity {
     }
 
     public void onQuit(View view){  // TODO: make this a menu option, not a button
-        if(waitOnGameThread != null) {
+        if(waitOnGameThread.isAlive()) {
             waitOnGameThread.interrupt();
         }
 
