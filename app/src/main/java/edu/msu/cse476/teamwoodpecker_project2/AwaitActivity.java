@@ -48,6 +48,7 @@ public class AwaitActivity extends ActionBarActivity {
                 if(response.getUserName1().equals(userName)) {
                     game = new Game(getBaseContext());
                     game.setPlayerNames(response.getUserName1(), response.getUserName2());
+                    cloud.submitUpdatedGame(getBaseContext(), game, userName, password);
                 }
                 else {
                     cloud.waitOnOpponent(getBaseContext(), game.getCurrentPlayerName(), game.getCurrentPlayerName());
