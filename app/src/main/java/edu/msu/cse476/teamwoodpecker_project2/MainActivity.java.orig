@@ -109,13 +109,22 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void onLoginSuccessful(String username, String password) {
-        game.setPlayerNames(username, getString(R.string.opponent_name));
+        game.setPlayerNames(username, getString(R.string.opponent_name));  //TODO: set username for local player only
 
         Bundle bundle = new Bundle();
         game.saveInstanceState(bundle, this);
 
+        //Cloud cloud = new Cloud();
+        //cloud.submitUpdatedGame(this.getBaseContext(), game, username, password);
+
+<<<<<<< Updated upstream
         Intent intent = new Intent(this, AwaitActivity.class);
+        intent.putExtras(bundle);
         intent.putExtra(LOCAL_NAME, username);
+=======
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtras(bundle);
+>>>>>>> Stashed changes
         startActivity(intent);
     }
 

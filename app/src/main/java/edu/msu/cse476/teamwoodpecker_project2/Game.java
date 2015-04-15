@@ -30,10 +30,29 @@ public class Game implements Serializable{
      * Used to track what state the game is currently in
      */
     private enum GameState {
-        nameEntry,
-        birdSelection,
-        birdPlacement,
-        gameOver
+        nameEntry(0),
+        birdSelection(1),
+        birdPlacement(2),
+        gameOver(3);
+
+        private final int value;
+        private GameState(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public static GameState getState(int value) {
+            for(int itr = 0; itr < GameState.values().length; itr++) {
+                if(GameState.values()[itr].getValue() == value) {
+                    return GameState.values()[itr];
+                }
+            }
+
+            return null;
+        }
     }
 
     /**
@@ -245,9 +264,15 @@ public class Game implements Serializable{
         state = GameState.birdSelection;
     }
 
-    public void setPlayers(Player p1, Player p2) {
+    private void setPlayers(Player p1, Player p2) {
         player1 = p1;
         player2 = p2;
+    }
+
+    private void setProgress(int playerTurn, int roundNum, GameState state) {
+        this.playerTurn = playerTurn;
+        this.roundNum = roundNum;
+        this.state = state;
     }
 
     /**
@@ -413,7 +438,7 @@ public class Game implements Serializable{
         serializer.startTag(null, "game_data");
         serializer.attribute(null, "playerTurn", String.valueOf(playerTurn));
         serializer.attribute(null, "roundNum", String.valueOf(roundNum));
-        serializer.attribute(null, "gameState", String.valueOf(state));
+        serializer.attribute(null, "gameState", String.valueOf(state.getValue()));
 
         serializer.startTag(null, "players");
         player1.serialize(serializer);
@@ -437,6 +462,13 @@ public class Game implements Serializable{
 
         parser.nextTag();
         parser.require(XmlPullParser.START_TAG, null, "game_data");
+
+        int playerTurn = Integer.parseInt(parser.getAttributeValue(null, "playerTurn"));
+        int roundNum = Integer.parseInt(parser.getAttributeValue(null, "roundNum"));
+        GameState state = GameState.getState(Integer.parseInt(parser.getAttributeValue(null, "gameState")));
+
+        game.setProgress(playerTurn, roundNum, state);
+
         parser.nextTag();
         parser.require(XmlPullParser.START_TAG, null, "players");
         Player player1 = Player.deserialize(context, parser);

@@ -14,25 +14,52 @@ public class AwaitActivity extends ActionBarActivity {
 
     private static final String LOCAL_NAME = "local_name";
 
+    private Game game = null;
+    private String userName = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
         setContentView(R.layout.activity_await);
+
+        if(bundle == null) {
+            userName = getIntent().getExtras().getString(LOCAL_NAME);
+        }
+        else {
+            userName = bundle.getString(LOCAL_NAME);
+        }
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 Cloud cloud = new Cloud();
+
+                Cloud.NewGameResponse response = cloud.waitForGame(getBaseContext(), userName, "P");
+
+                if(!response.isConnected()) {
+                    // TODO: What do we do if the server returns an error?
+                    return;
+                }
+
+                if(response.getUserName1().equals(userName)) {
+                    game = new Game(getBaseContext());
+                    game.setPlayerNames(response.getUserName1(), response.getUserName2());
+                }
+                else {
+                    cloud.waitOnOpponent(getBaseContext(), game.getCurrentPlayerName(), game.getCurrentPlayerName());
+                }
+
+                onPlayersConnected();
             }
         }).start();
-
     }
 
-    public void onPlayersConnected(View view) { // TODO: remove view param (button press) and call when network activity (thread) shows connection
+    public void onPlayersConnected() {
+        Bundle bundle = new Bundle();
+        game.saveInstanceState(bundle, this);
+
         Intent intent = new Intent(this, SelectionActivity.class);
-        intent.putExtras(getIntent().getExtras());
-        intent.putExtra(LOCAL_NAME, getIntent().getExtras().getString(LOCAL_NAME) );
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 

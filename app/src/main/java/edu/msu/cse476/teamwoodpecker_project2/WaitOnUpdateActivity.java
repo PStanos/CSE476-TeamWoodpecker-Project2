@@ -4,16 +4,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-
-import java.io.InterruptedIOException;
-
-import edu.msu.cse476.teamwoodpecker_project2.R;
 
 public class WaitOnUpdateActivity extends DialogFragment {
 
@@ -44,7 +37,7 @@ public class WaitOnUpdateActivity extends DialogFragment {
             public void run() {
                 Cloud cloud = new Cloud();
                 Game updatedGame;
-                updatedGame = cloud.waitOnGame(viewGame, viewGame.getGame().getLocalName(), "s");
+                updatedGame = null;// cloud.waitOnOpponent(viewGame, viewGame.getGame().getLocalName(), "s");
                 if(updatedGame == null) {
                     updatedGame = viewGame.getGame();
                 }
