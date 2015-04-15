@@ -56,6 +56,7 @@ public class AwaitActivity extends ActionBarActivity {
                 }
                 else {
                     game = cloud.waitOnOpponent(getBaseContext(), userName, password);
+                    onPlayersConnected();
                     return;
                 }
 
