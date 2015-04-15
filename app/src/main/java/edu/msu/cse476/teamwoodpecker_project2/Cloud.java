@@ -318,7 +318,7 @@ public class Cloud {
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-            String postStr = "xml=" + generateXml(game) + "&user=" + username + "&pw=" + password;
+            String postStr = "xml=" + generateXml(game) + "&user=" + username + "&pw=" + password + "&next=" + game.getCurrentPlayerName();
 
             byte[] data = postStr.getBytes();
 
