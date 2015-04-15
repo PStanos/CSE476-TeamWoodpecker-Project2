@@ -55,7 +55,7 @@ public class AwaitActivity extends ActionBarActivity {
                     }
                 }
                 else {
-                    cloud.waitOnOpponent(getBaseContext(), game.getCurrentPlayerName(), game.getCurrentPlayerName());
+                    //cloud.waitOnOpponent(getBaseContext(), game.getCurrentPlayerName(), game.getCurrentPlayerName());
                 }
 
                 onPlayersConnected();
@@ -113,6 +113,9 @@ public class AwaitActivity extends ActionBarActivity {
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
+
+        bundle.putString(LOCAL_NAME, userName);
+        bundle.putString(LOCAL_PASSWORD, password);
 
         if(waitOnGameThread != null) {
             waitOnGameThread.interrupt();
