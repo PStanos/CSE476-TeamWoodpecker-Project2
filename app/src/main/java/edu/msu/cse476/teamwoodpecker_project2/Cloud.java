@@ -45,7 +45,7 @@ public class Cloud {
 
     private static final String LOGIN_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/login.php";
     private static final String CREATE_USER_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/newuser.php";
-    private static final String JOIN_GAME_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/waitgame.php";
+    private static final String WAIT_GAME_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/waitgame.php";
     private static final String UPDATE_GAME_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/updategame.php";
     private static final String GET_GAME_DATA_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/lobbyscript.php";
 
@@ -246,7 +246,7 @@ public class Cloud {
     }
 
     public Game waitOnOpponent(final Context context, String userId, String password) {
-        String query = JOIN_GAME_URL + "?user=" + userId + "&pw=" + password;
+        String query = WAIT_GAME_URL + "?user=" + userId + "&pw=" + password;
 
         while(true) {
             try {

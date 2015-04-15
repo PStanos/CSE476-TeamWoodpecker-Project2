@@ -55,7 +55,8 @@ public class AwaitActivity extends ActionBarActivity {
                     }
                 }
                 else {
-                    //cloud.waitOnOpponent(getBaseContext(), game.getCurrentPlayerName(), game.getCurrentPlayerName());
+                    game = cloud.waitOnOpponent(getBaseContext(), userName, password);
+                    return;
                 }
 
                 onPlayersConnected();
