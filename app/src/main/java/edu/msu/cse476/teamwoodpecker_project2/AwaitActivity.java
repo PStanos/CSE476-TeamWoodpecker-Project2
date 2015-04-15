@@ -41,14 +41,18 @@ public class AwaitActivity extends ActionBarActivity {
                 Cloud.NewGameResponse response = cloud.waitForGame(getBaseContext(), userName, password);
 
                 if(!response.isConnected()) {
-                    // TODO: What do we do if the server returns an error?
+                    onGameCreationFailed();
                     return;
                 }
 
                 if(response.getUserName1().equals(userName)) {
                     game = new Game(getBaseContext());
                     game.setPlayerNames(response.getUserName1(), response.getUserName2());
-                    cloud.submitUpdatedGame(getBaseContext(), game, userName, password);
+
+                    if(!cloud.submitUpdatedGame(getBaseContext(), game, userName, password)) {
+                        onGameCreationFailed();
+                        return;
+                    }
                 }
                 else {
                     cloud.waitOnOpponent(getBaseContext(), game.getCurrentPlayerName(), game.getCurrentPlayerName());
@@ -67,6 +71,11 @@ public class AwaitActivity extends ActionBarActivity {
 
         Intent intent = new Intent(this, SelectionActivity.class);
         intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    private void onGameCreationFailed() {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
