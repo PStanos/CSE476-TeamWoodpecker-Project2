@@ -262,12 +262,38 @@ public class Cloud {
                 xml.setInput(conn.getInputStream(), "UTF-8");
 
                 xml.nextTag();
+
+                if(xml.getEventType() == XmlPullParser.START_TAG) {
+                    boolean parseGame = false;
+
+                    try {
+                        xml.require(XmlPullParser.START_TAG, null, "game_data");
+                        parseGame = true;
+                    }
+                    catch (XmlPullParserException ex) {
+
+                    }
+
+                    if(parseGame) {
+                        return parseGameXML(context, xml);
+                    }
+                }
+                else {
+                    return null;
+                }
+
+                /*
                 xml.require(XmlPullParser.START_TAG, null, "game");
+
                 String status = xml.getAttributeValue(null, "status");
+
+                xml.nextTag();
+                xml.require(XmlPullParser.END_TAG, null, "game");
 
                 if(status.equals("yes")) {
                     return parseGameXML(context, xml);
                 }
+                */
                 /*
                 else {
                     String msg = xml.getAttributeValue(null, "msg");
@@ -318,7 +344,7 @@ public class Cloud {
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-            String postStr = "xml=" + generateXml(game) + "&user=" + username + "&pw=" + password + "&next=" + game.getCurrentPlayerName();
+            String postStr = "xml=" + generateXml(game) + "&user=" + username + "&pw=" + password;
 
             byte[] data = postStr.getBytes();
 

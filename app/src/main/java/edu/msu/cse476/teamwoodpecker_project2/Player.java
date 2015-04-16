@@ -66,12 +66,19 @@ public class Player implements Serializable {
     }
 
     public static Player deserialize(Context context, XmlPullParser parser) throws IOException, XmlPullParserException {
-        Player player = new Player();
-
         parser.nextTag();
         parser.require(XmlPullParser.START_TAG, null, "player");
 
-        player.setSelectedBird(Bird.deserialize(context, parser));
+        String name = parser.getAttributeValue(null, "name");
+        Player player = new Player(name);
+
+        parser.nextTag();
+
+        if(parser.getName().equals("bird")) {
+            player.setSelectedBird(Bird.deserialize(context, parser));
+        }
+
+        parser.require(XmlPullParser.END_TAG, null, "player");
 
         return player;
     }

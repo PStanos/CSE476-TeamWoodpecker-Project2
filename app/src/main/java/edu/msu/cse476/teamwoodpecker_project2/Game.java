@@ -469,7 +469,6 @@ public class Game implements Serializable{
     public static Game deserialize(Context context, XmlPullParser parser) throws IOException, XmlPullParserException {
         Game game = new Game(context);
 
-        parser.nextTag();
         parser.require(XmlPullParser.START_TAG, null, "game_data");
 
         int playerTurn = Integer.parseInt(parser.getAttributeValue(null, "playerTurn"));
@@ -484,11 +483,14 @@ public class Game implements Serializable{
         Player player2 = Player.deserialize(context, parser);
 
         game.setPlayers(player1, player2);
+
+        parser.nextTag();
         parser.require(XmlPullParser.END_TAG, null, "players");
 
+        parser.nextTag();
         parser.require(XmlPullParser.START_TAG, null, "birds");
 
-        int numBirds = Integer.getInteger(parser.getAttributeValue(null, "numBirds"));
+        int numBirds = Integer.parseInt(parser.getAttributeValue(null, "numBirds"));
 
         for(int itr = 0; itr < numBirds; itr++) {
             game.addBird(Bird.deserialize(context, parser));
@@ -497,6 +499,7 @@ public class Game implements Serializable{
         parser.nextTag();
         parser.require(XmlPullParser.END_TAG, null, "birds");
 
+        parser.nextTag();
         parser.require(XmlPullParser.END_TAG, null, "game_data");
 
         return game;
