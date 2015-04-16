@@ -14,7 +14,9 @@ public class GameActivity extends ActionBarActivity {
     private GameView gameView;
 
     private static final String LOCAL_NAME = "local_name";
+    private static final String LOCAL_PASSWORD = "local_password";
     private String local_username;
+    private String local_password;
 
 
     @Override
@@ -36,9 +38,11 @@ public class GameActivity extends ActionBarActivity {
         }
 
         local_username = getIntent().getExtras().getString(LOCAL_NAME);
+        local_password = getIntent().getExtras().getString(LOCAL_PASSWORD);
 
         if(gameView.getGame() != null && local_username != null) {
             gameView.getGame().setLocalName(local_username);
+            gameView.getGame().setLocalPassword(local_password);
         }
 
         TextView tv = (TextView)findViewById(R.id.placementText);

@@ -1,5 +1,6 @@
 package edu.msu.cse476.teamwoodpecker_project2;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -17,8 +18,11 @@ import edu.msu.cse476.teamwoodpecker_project2.R;
 
 public class WaitOnSelectActivity extends DialogFragment {
 
+    private static final String LOCAL_NAME = "local_name";
+    private static final String LOCAL_PASSWORD = "local_password";
+
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(final Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         // Set the title
@@ -36,13 +40,16 @@ public class WaitOnSelectActivity extends DialogFragment {
             }
         });
 
-        final GameView viewGame = (GameView)getActivity().findViewById(R.id.gameView);
+        final SelectionView viewSelect = (SelectionView)getActivity().findViewById(R.id.selectionView);
 
         new Thread(new Runnable() {
 
             @Override
             public void run() {
                 Cloud cloud = new Cloud();
+                Game game = ((SelectionActivity)viewSelect.getContext()).getGame();
+
+                cloud.waitOnOpponent(viewSelect.getContext(), game.getLocalName(), game.getLocalPassword() );
 
                 try {
                     Thread.sleep(2000);
@@ -54,6 +61,7 @@ public class WaitOnSelectActivity extends DialogFragment {
                     @Override
                     public void run() {
                         // TODO: UI update work here
+
                     }
                 });
 */

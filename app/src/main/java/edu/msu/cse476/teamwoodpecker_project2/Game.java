@@ -141,6 +141,7 @@ public class Game implements Serializable{
      */
     private int localPlayer;
     private String localName;
+    private String localPassword;
 
     /**
      * @param context the current context
@@ -174,6 +175,14 @@ public class Game implements Serializable{
      */
     public boolean inGameOverState() { return state.equals(GameState.gameOver); }
 
+
+    public String getLocalPassword() {
+        return localPassword;
+    }
+
+    public void setLocalPassword(String localPassword) {
+        this.localPassword = localPassword;
+    }
 
     public String getLocalName() {
         return localName;

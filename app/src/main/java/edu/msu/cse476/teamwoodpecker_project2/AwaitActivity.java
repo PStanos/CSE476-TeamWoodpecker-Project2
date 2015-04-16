@@ -79,6 +79,8 @@ public class AwaitActivity extends ActionBarActivity {
 
         Intent intent = new Intent(this, SelectionActivity.class);
         intent.putExtras(bundle);
+        intent.putExtra(LOCAL_NAME, userName);
+        intent.putExtra(LOCAL_PASSWORD, password);
         startActivity(intent);
     }
 

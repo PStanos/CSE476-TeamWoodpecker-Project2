@@ -23,6 +23,7 @@ public class SelectionActivity extends ActionBarActivity {
     private Toast birdSelectedToast;
 
     private static final String LOCAL_NAME = "local_name";
+    private static final String LOCAL_PASSWORD = "local_password";
 
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
@@ -74,26 +75,25 @@ public class SelectionActivity extends ActionBarActivity {
         if (selectionView.isSelected()) {
             selectionView.setPlayerSelection(game);
 
-            if (!game.inSelectionState()){
+            if (!game.inSelectionState()) {
 
                 Intent intent = new Intent(this, GameActivity.class);
                 intent.putExtras(bundle);
                 intent.putExtras(intent.getExtras());
-                intent.putExtra(LOCAL_NAME, getIntent().getExtras().getString(LOCAL_NAME) );
+                intent.putExtra(LOCAL_NAME, getIntent().getExtras().getString(LOCAL_NAME));
+                intent.putExtra(LOCAL_PASSWORD, getIntent().getExtras().getString(LOCAL_NAME));
                 startActivity(intent);
                 finish();
-            }
-            else {
-                if(!game.getLocalName().equals(game.getCurrentPlayerName())) {
+            } else {
+                setPlayerSelectionText();
+                if (!game.getLocalName().equals(game.getCurrentPlayerName())) {
                     WaitOnSelectActivity dlgWaitSelect = new WaitOnSelectActivity();
                     dlgWaitSelect.show(getFragmentManager(), "wait");
                 }
-                else
-                    setPlayerSelectionText();
             }
 
         } else {
-            if(noBirdToast == null) {
+            if (noBirdToast == null) {
                 noBirdToast = Toast.makeText(this, getString(R.string.no_bird_toast), Toast.LENGTH_SHORT);
             }
             TextView v = (TextView) noBirdToast.getView().findViewById(android.R.id.message);
@@ -101,6 +101,10 @@ public class SelectionActivity extends ActionBarActivity {
             noBirdToast.show();
             Log.i("onConfirmSelection", "bird not selected");
         }
+    }
+
+    public Game getGame(){
+        return game;
     }
 
 }
