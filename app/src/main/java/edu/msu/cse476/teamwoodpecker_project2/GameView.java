@@ -54,10 +54,10 @@ public class GameView extends View {
         return game.inGameOverState();
     }
 
-    public boolean isLocalPlay(){
+ /*   public boolean isLocalPlay(){
         return (game.getCurrentPlayerName()==game.getLocalName());
     }
-
+*/
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return game.onTouchEvent(this, event);

@@ -26,6 +26,9 @@ public class SelectionActivity extends ActionBarActivity {
     private static final String LOCAL_NAME = "local_name";
     private static final String LOCAL_PASSWORD = "local_password";
 
+    private String userName = null;
+    private String password = null;
+
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
@@ -41,10 +44,13 @@ public class SelectionActivity extends ActionBarActivity {
 
         if(bundle != null) {
             game = (Game)bundle.getSerializable(getString(R.string.game_state));
-            game.setLocalName(getIntent().getExtras().getString(LOCAL_NAME));
+            userName = bundle.getString(LOCAL_NAME);
+            password = bundle.getString(LOCAL_PASSWORD);
         }
         else {
             game = (Game)getIntent().getExtras().getSerializable(getString(R.string.game_state));
+            userName = getIntent().getExtras().getString(LOCAL_NAME);
+            password = getIntent().getExtras().getString(LOCAL_PASSWORD);
         }
         selectionView = (SelectionView)findViewById(R.id.selectionView);
 
@@ -56,7 +62,7 @@ public class SelectionActivity extends ActionBarActivity {
             selectionView.loadInstanceState(bundle);
         }
 
-        if( !game.getLocalName().equals("") && !game.getLocalName().equals(game.getCurrentPlayerName())) {
+        if( !userName.equals("") && !userName.equals(game.getCurrentPlayerName())) {
             WaitOnSelectActivity dlgWaitSelect = new WaitOnSelectActivity();
             dlgWaitSelect.show(getFragmentManager(), "wait");
         }
@@ -81,7 +87,7 @@ public class SelectionActivity extends ActionBarActivity {
                 @Override
                 public void run() {
                     Cloud cloud = new Cloud();
-                    cloud.submitUpdatedGame(act, game, game.getLocalName(), game.getLocalPassword());
+                    cloud.submitUpdatedGame(act, game, userName, password);
                 }
             }).start();
 
@@ -95,7 +101,7 @@ public class SelectionActivity extends ActionBarActivity {
                 finish();
             } else {
                 setPlayerSelectionText();
-                if (!game.getLocalName().equals(game.getCurrentPlayerName())) {
+                if (!userName.equals(game.getCurrentPlayerName())) {
                     WaitOnSelectActivity dlgWaitSelect = new WaitOnSelectActivity();
                     dlgWaitSelect.show(getFragmentManager(), "wait");
                 }
@@ -140,5 +146,8 @@ public class SelectionActivity extends ActionBarActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+
+    public String getUser(){return userName;}
+    public String getPass(){return password;}
 
 }

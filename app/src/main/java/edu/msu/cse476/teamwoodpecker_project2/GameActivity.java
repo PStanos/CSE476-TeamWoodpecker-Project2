@@ -41,10 +41,6 @@ public class GameActivity extends ActionBarActivity {
         local_username = getIntent().getExtras().getString(LOCAL_NAME);
         local_password = getIntent().getExtras().getString(LOCAL_PASSWORD);
 
-        if(gameView.getGame() != null && local_username != null) {
-            gameView.getGame().setLocalName(local_username);
-            gameView.getGame().setLocalPassword(local_password);
-        }
 
         TextView tv = (TextView)findViewById(R.id.placementText);
         tv.setText(String.format(getString(R.string.bird_placement_info),
@@ -52,7 +48,7 @@ public class GameActivity extends ActionBarActivity {
 
         gameView.reloadBirds();
 
-        if(!gameView.getGame().getLocalName().equals(gameView.getGame().getCurrentPlayerName())) {
+        if(!local_username.equals(gameView.getGame().getCurrentPlayerName())) {
             // if game is in waiting state:
             WaitOnUpdateActivity dlgWait = new WaitOnUpdateActivity();
             dlgWait.show(getFragmentManager(), "wait");
@@ -82,7 +78,7 @@ public class GameActivity extends ActionBarActivity {
                 finish();
             }
             else{
-                if(!gameView.getGame().getLocalName().equals(gameView.getGame().getCurrentPlayerName())) {
+                if(!local_username.equals(gameView.getGame().getCurrentPlayerName())) {
                     // if game is in waiting state:
                     WaitOnUpdateActivity dlgWait = new WaitOnUpdateActivity();
                     dlgWait.show(getFragmentManager(), "wait");

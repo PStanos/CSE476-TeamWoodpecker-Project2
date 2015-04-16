@@ -140,8 +140,8 @@ public class Game implements Serializable{
     * identifiers for whether current player is P1 or P2 in game
      */
     private int localPlayer;
-    private String localName;
-    private String localPassword;
+//    private String localName;
+//    private String localPassword;
 
     /**
      * @param context the current context
@@ -157,8 +157,8 @@ public class Game implements Serializable{
         Bitmap scaleBird = BitmapFactory.decodeResource(context.getResources(), R.drawable.ostrich);
         scalingWidth = scaleBird.getWidth()*1.5f;
 
-        localPlayer = 0;
-        localName = "";
+//        localPlayer = 0;
+
     }
 
     /**
@@ -175,7 +175,7 @@ public class Game implements Serializable{
      */
     public boolean inGameOverState() { return state.equals(GameState.gameOver); }
 
-
+/*
     public String getLocalPassword() {
         return localPassword;
     }
@@ -191,13 +191,14 @@ public class Game implements Serializable{
     public void setLocalName(String localName) {
         this.localName = localName;
     }
+*/
 
     /**
      * Get the current player who's turn it is
      * @return the player who's turn it is
      */
     private Player getCurrentPlayer() {
-        if(localPlayer == 0){
+/*        if(localPlayer == 0){
             if(localName.equals(player1.getName())){
                 localPlayer = 1;
             }
@@ -208,8 +209,7 @@ public class Game implements Serializable{
                 localPlayer = 0;
             }
         }
-
-        Log.i("LOCALPLAYER", localName+" is P"+localPlayer+"; round/turn = "+roundNum+"/"+playerTurn);
+*/
 
         if(playerTurn == 0) {
             if(roundNum % 2 == 0) return player1;
