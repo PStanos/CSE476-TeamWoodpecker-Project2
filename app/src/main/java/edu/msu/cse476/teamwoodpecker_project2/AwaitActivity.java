@@ -89,7 +89,16 @@ public class AwaitActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public void onQuit(View view){  // TODO: make this a menu option, not a button
+    public void onQuit(View view){
+        if(waitOnGameThread.isAlive()) {
+            waitOnGameThread.interrupt();
+        }
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void onQuit(){
         if(waitOnGameThread.isAlive()) {
             waitOnGameThread.interrupt();
         }
@@ -114,6 +123,10 @@ public class AwaitActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+        if(id == R.id.menu_quit){
+            onQuit();
             return true;
         }
 

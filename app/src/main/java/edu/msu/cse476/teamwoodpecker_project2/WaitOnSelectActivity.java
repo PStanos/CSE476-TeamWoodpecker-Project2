@@ -49,6 +49,7 @@ public class WaitOnSelectActivity extends DialogFragment {
                 Cloud cloud = new Cloud();
                 Game game = ((SelectionActivity)viewSelect.getContext()).getGame();
 
+//                cloud.submitUpdatedGame(viewSelect.getContext(), game, game.getLocalName(), game.getLocalPassword())
                 cloud.waitOnOpponent(viewSelect.getContext(), game.getLocalName(), game.getLocalPassword() );
 
                 try {
