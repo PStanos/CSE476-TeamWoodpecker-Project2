@@ -76,6 +76,7 @@ public class Player implements Serializable {
 
         if(parser.getName().equals("bird")) {
             player.setSelectedBird(Bird.deserialize(context, parser));
+            parser.nextTag();
         }
 
         parser.require(XmlPullParser.END_TAG, null, "player");
