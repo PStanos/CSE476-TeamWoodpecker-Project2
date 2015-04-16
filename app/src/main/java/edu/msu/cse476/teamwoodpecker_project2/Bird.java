@@ -196,7 +196,6 @@ public class Bird implements Serializable {
     }
 
     public static Bird deserialize(Context context, XmlPullParser parser) throws IOException, XmlPullParserException {
-        parser.nextTag();
         parser.require(XmlPullParser.START_TAG, null, "bird");
 
         int id = Integer.parseInt(parser.getAttributeValue(null, "id"));
