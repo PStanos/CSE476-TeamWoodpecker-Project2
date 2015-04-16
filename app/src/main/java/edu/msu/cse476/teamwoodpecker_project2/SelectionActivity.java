@@ -86,12 +86,11 @@ public class SelectionActivity extends ActionBarActivity {
             }).start();
 
             if (!game.inSelectionState()) {
-
                 Intent intent = new Intent(this, GameActivity.class);
                 intent.putExtras(bundle);
                 intent.putExtras(intent.getExtras());
                 intent.putExtra(LOCAL_NAME, getIntent().getExtras().getString(LOCAL_NAME));
-                intent.putExtra(LOCAL_PASSWORD, getIntent().getExtras().getString(LOCAL_NAME));
+                intent.putExtra(LOCAL_PASSWORD, getIntent().getExtras().getString(LOCAL_PASSWORD));
                 startActivity(intent);
                 finish();
             } else {
