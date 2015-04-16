@@ -118,8 +118,9 @@ public class SelectionActivity extends ActionBarActivity {
         }
     }
 
-    public Game getGame(){
-        return game;
+    public void updateGame(Game g){
+        game = g;
+        setPlayerSelectionText();
     }
 
 

@@ -47,16 +47,9 @@ public class WaitOnSelectActivity extends DialogFragment {
             @Override
             public void run() {
                 Cloud cloud = new Cloud();
-                Game game = ((SelectionActivity)viewSelect.getContext()).getGame();
 
 //                cloud.submitUpdatedGame(viewSelect.getContext(), game, game.getLocalName(), game.getLocalPassword())
-                cloud.waitOnOpponent(viewSelect.getContext(), ((SelectionActivity) viewSelect.getContext()).getUser(), ((SelectionActivity) viewSelect.getContext()).getPass());
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-
-                }
+                ((SelectionActivity)viewSelect.getContext()).updateGame(cloud.waitOnOpponent(viewSelect.getContext(), ((SelectionActivity) viewSelect.getContext()).getUser(), ((SelectionActivity) viewSelect.getContext()).getPass()));
 /*
                 viewGame.post(new Runnable() {
                     @Override
