@@ -121,6 +121,10 @@ public class Game implements Serializable{
      */
     private Bird dragging = null;
 
+    public void setDragging(Bird bird) {
+        dragging = bird;
+    }
+
     /**
      * Most recent relative X touch when dragging
      */
@@ -500,6 +504,7 @@ public class Game implements Serializable{
 
         for(int itr = 0; itr < numBirds; itr++) {
             game.addBird(Bird.deserialize(context, parser));
+            parser.nextTag();
         }
 
         parser.require(XmlPullParser.END_TAG, null, "birds");
