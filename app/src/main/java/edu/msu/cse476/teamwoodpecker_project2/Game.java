@@ -121,10 +121,6 @@ public class Game implements Serializable{
      */
     private Bird dragging = null;
 
-    public void setDragging(Bird bird) {
-        dragging = bird;
-    }
-
     /**
      * Most recent relative X touch when dragging
      */
@@ -402,6 +398,8 @@ public class Game implements Serializable{
         player1.getSelectedBird().reloadBitmap(context);
         player2.getSelectedBird().reloadBitmap(context);
 
+        dragging = getCurrentPlayer().getSelectedBird();
+
         // Birds will be scaled so that the game is "1.5 ostriches" wide
         Bitmap scaleBird = BitmapFactory.decodeResource(context.getResources(), R.drawable.ostrich);
         scalingWidth = scaleBird.getWidth()*1.5f;
@@ -469,10 +467,6 @@ public class Game implements Serializable{
 
         serializer.endTag(null, "birds");
 
-        if(dragging != null) {
-            dragging.serialize(serializer);
-        }
-
         serializer.endTag(null, "game_data");
     }
 
@@ -512,11 +506,6 @@ public class Game implements Serializable{
         parser.require(XmlPullParser.END_TAG, null, "birds");
 
         parser.nextTag();
-
-        if(parser.getName().equals("bird")) {
-            game.dragging = Bird.deserialize(context, parser);
-            parser.nextTag();
-        }
 
         parser.require(XmlPullParser.END_TAG, null, "game_data");
 
