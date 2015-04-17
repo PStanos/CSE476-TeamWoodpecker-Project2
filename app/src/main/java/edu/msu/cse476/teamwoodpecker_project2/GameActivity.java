@@ -41,10 +41,8 @@ public class GameActivity extends ActionBarActivity {
         local_username = getIntent().getExtras().getString(LOCAL_NAME);
         local_password = getIntent().getExtras().getString(LOCAL_PASSWORD);
 
-
         TextView tv = (TextView)findViewById(R.id.placementText);
-        tv.setText(String.format(getString(R.string.bird_placement_info),
-                gameView.getGame().getCurrentPlayerName()));
+        tv.setText(String.format(getString(R.string.bird_placement_info), gameView.getGame().getCurrentPlayerName()));
 
         gameView.reloadBirds();
 

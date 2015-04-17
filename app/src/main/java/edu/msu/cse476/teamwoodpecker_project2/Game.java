@@ -463,6 +463,10 @@ public class Game implements Serializable{
             birds.get(itr).serialize(serializer);
         }
 
+        if(dragging != null) {
+            dragging.serialize(serializer);
+        }
+
         serializer.endTag(null, "birds");
 
         serializer.endTag(null, "game_data");
@@ -499,6 +503,12 @@ public class Game implements Serializable{
         }
 
         parser.nextTag();
+
+        if(parser.getName().equals("bird")) {
+            game.dragging = Bird.deserialize(context, parser);
+            parser.nextTag();
+        }
+
         parser.require(XmlPullParser.END_TAG, null, "birds");
 
         parser.nextTag();
