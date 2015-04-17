@@ -509,6 +509,8 @@ public class Game implements Serializable{
 
         parser.require(XmlPullParser.END_TAG, null, "game_data");
 
+        game.reloadBirds(context);
+
         return game;
     }
 }
