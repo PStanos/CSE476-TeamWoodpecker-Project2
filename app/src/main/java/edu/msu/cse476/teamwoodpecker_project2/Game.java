@@ -502,14 +502,14 @@ public class Game implements Serializable{
             game.addBird(Bird.deserialize(context, parser));
         }
 
+        parser.require(XmlPullParser.END_TAG, null, "birds");
+
         parser.nextTag();
 
         if(parser.getName().equals("bird")) {
             game.dragging = Bird.deserialize(context, parser);
             parser.nextTag();
         }
-
-        parser.require(XmlPullParser.END_TAG, null, "birds");
 
         parser.nextTag();
         parser.require(XmlPullParser.END_TAG, null, "game_data");
