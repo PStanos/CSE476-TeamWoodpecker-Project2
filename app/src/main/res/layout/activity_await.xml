@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:text="*quit connection*"
         android:id="@+id/quitButton"
-        android:onClick="onQuit"
+        android:onClick="onQuitGame"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 

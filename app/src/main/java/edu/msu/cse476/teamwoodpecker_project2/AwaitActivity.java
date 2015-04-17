@@ -89,16 +89,18 @@ public class AwaitActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public void onQuit(View view){
+    public void onQuitGame(View view){
         if(waitOnGameThread.isAlive()) {
             waitOnGameThread.interrupt();
         }
 
         Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
 
-    public void onQuit(){
+    public void onQuitGame(){
         if(waitOnGameThread.isAlive()) {
             waitOnGameThread.interrupt();
         }
@@ -112,7 +114,9 @@ public class AwaitActivity extends ActionBarActivity {
         }).start();
 
         Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -134,7 +138,7 @@ public class AwaitActivity extends ActionBarActivity {
             return true;
         }
         if(id == R.id.menu_quit){
-            onQuit();
+            onQuitGame();
             return true;
         }
 

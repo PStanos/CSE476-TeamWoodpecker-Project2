@@ -101,14 +101,7 @@ public class GameActivity extends ActionBarActivity {
 
 
 
-    public void onQuit(){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+    public void onQuitGame(){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -117,6 +110,15 @@ public class GameActivity extends ActionBarActivity {
             }
         }).start();
 
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_await, menu);
         return true;
     }
@@ -133,7 +135,7 @@ public class GameActivity extends ActionBarActivity {
             return true;
         }
         if(id == R.id.menu_quit){
-            onQuit();
+            onQuitGame();
             return true;
         }
 

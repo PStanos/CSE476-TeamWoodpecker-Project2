@@ -136,7 +136,7 @@ public class SelectionActivity extends ActionBarActivity {
         }
     }
 
-    public void onQuit(){
+    public void onQuitGame(){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -146,7 +146,9 @@ public class SelectionActivity extends ActionBarActivity {
         }).start();
 
         Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -168,7 +170,7 @@ public class SelectionActivity extends ActionBarActivity {
             return true;
         }
         if(id == R.id.menu_quit){
-            onQuit();
+            onQuitGame();
             return true;
         }
 

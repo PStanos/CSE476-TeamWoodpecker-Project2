@@ -36,6 +36,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.getIntent().setFlags((Intent.FLAG_ACTIVITY_SINGLE_TOP));
+
         game = new Game(this);
 
         username = (EditText) findViewById(R.id.username);
@@ -139,7 +142,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    public void onQuit(){
+    public void onQuitGame(){
         // do nothing
     }
 
@@ -162,7 +165,7 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
         if(id == R.id.menu_quit){
-            onQuit();
+            onQuitGame();
             return true;
         }
 
