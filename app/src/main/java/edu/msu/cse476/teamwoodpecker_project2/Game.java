@@ -169,6 +169,8 @@ public class Game implements Serializable{
         return state.equals(GameState.birdSelection);
     }
 
+    public boolean inPlacementState() { return state.equals(GameState.birdPlacement); }
+
     /**
      * Determines if the game is in the game over state
      * @return true if the game is over; false otherwise

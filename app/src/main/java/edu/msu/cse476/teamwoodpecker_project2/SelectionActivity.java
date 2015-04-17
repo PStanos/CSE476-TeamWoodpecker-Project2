@@ -91,10 +91,10 @@ public class SelectionActivity extends ActionBarActivity {
                 }
             }).start();
 
-            if (!game.inSelectionState()) {
+            if (game.inPlacementState()) {
                 Intent intent = new Intent(this, GameActivity.class);
                 intent.putExtras(bundle);
-                intent.putExtras(intent.getExtras());
+                //intent.putExtras(intent.getExtras());
                 intent.putExtra(LOCAL_NAME, getIntent().getExtras().getString(LOCAL_NAME));
                 intent.putExtra(LOCAL_PASSWORD, getIntent().getExtras().getString(LOCAL_PASSWORD));
                 startActivity(intent);
@@ -121,6 +121,18 @@ public class SelectionActivity extends ActionBarActivity {
     public void updateGame(Game g){
         game = g;
         setPlayerSelectionText();
+
+        if(game.inPlacementState()) {
+            Bundle bundle = new Bundle();
+            game.saveInstanceState(bundle, this);
+
+            Intent intent = new Intent(this, GameActivity.class);
+            intent.putExtras(bundle);
+            intent.putExtra(LOCAL_NAME, getIntent().getExtras().getString(LOCAL_NAME));
+            intent.putExtra(LOCAL_PASSWORD, getIntent().getExtras().getString(LOCAL_PASSWORD));
+            startActivity(intent);
+            finish();
+        }
     }
 
 
