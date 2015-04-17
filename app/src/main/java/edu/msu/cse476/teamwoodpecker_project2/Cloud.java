@@ -1,6 +1,7 @@
 package edu.msu.cse476.teamwoodpecker_project2;
 
 import android.content.Context;
+import android.util.Log;
 import android.util.Xml;
 import android.view.View;
 import android.widget.Toast;
@@ -109,11 +110,14 @@ public class Cloud {
 
             return false;
 
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException ex) {
+            Log.e("cloud", ex.getMessage());
             return false;
         } catch(XmlPullParserException ex) {
+            Log.e("cloud", ex.getMessage());
             return false;
         } catch (IOException ex) {
+            Log.e("cloud", ex.getMessage());
             return false;
         }
     }
@@ -167,11 +171,14 @@ public class Cloud {
 
             return false;
 
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException ex) {
+            Log.e("cloud", ex.getMessage());
             return false;
         } catch(XmlPullParserException ex) {
+            Log.e("cloud", ex.getMessage());
             return false;
         } catch (IOException ex) {
+            Log.e("cloud", ex.getMessage());
             return false;
         }
     }
@@ -227,11 +234,14 @@ public class Cloud {
                     }
                 }
                 */
-            } catch (MalformedURLException e) {
+            } catch (MalformedURLException ex) {
+                Log.e("cloud", ex.getMessage());
                 return new NewGameResponse(false, null, null);
             } catch(XmlPullParserException ex) {
+                Log.e("cloud", ex.getMessage());
                 return new NewGameResponse(false, null, null);
             } catch (IOException ex) {
+                Log.e("cloud", ex.getMessage());
                 return new NewGameResponse(false, null, null);
             }
 
@@ -320,11 +330,14 @@ public class Cloud {
                     }
                 }
                 */
-            } catch (MalformedURLException e) {
+            } catch (MalformedURLException ex) {
+                Log.e("cloud", ex.getMessage());
                 return null;
             } catch(XmlPullParserException ex) {
+                Log.e("cloud", ex.getMessage());
                 return null;
             } catch (IOException ex) {
+                Log.e("cloud", ex.getMessage());
                 return null;
             }
 
@@ -405,11 +418,13 @@ public class Cloud {
 
             //return false;
 
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException ex) {
+            Log.e("cloud", ex.getMessage());
             return false;
         //} catch(XmlPullParserException ex) {
         //    return false;
         } catch (IOException ex) {
+            Log.e("cloud", ex.getMessage());
             return false;
         }
     }
@@ -428,7 +443,8 @@ public class Cloud {
             serializer.endDocument();
 
             return byteArrayStream.toString("UTF-8");
-        } catch (IOException e) {
+        } catch (IOException ex) {
+            Log.e("serialize", ex.getMessage());
             return "";
         }
     }
