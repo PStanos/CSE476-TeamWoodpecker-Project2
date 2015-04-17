@@ -503,9 +503,11 @@ public class Game implements Serializable{
         int numBirds = Integer.parseInt(parser.getAttributeValue(null, "numBirds"));
 
         for(int itr = 0; itr < numBirds; itr++) {
-            game.addBird(Bird.deserialize(context, parser));
             parser.nextTag();
+            game.addBird(Bird.deserialize(context, parser));
         }
+
+        parser.nextTag();
 
         parser.require(XmlPullParser.END_TAG, null, "birds");
 
