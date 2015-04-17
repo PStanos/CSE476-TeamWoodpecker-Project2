@@ -395,10 +395,17 @@ public class Game implements Serializable{
             bird.reloadBitmap(context);
         }
 
-        player1.getSelectedBird().reloadBitmap(context);
-        player2.getSelectedBird().reloadBitmap(context);
+        if(player1.getSelectedBird() != null) {
+            player1.getSelectedBird().reloadBitmap(context);
+        }
 
-        dragging = getCurrentPlayer().getSelectedBird();
+        if(player2.getSelectedBird() != null) {
+            player2.getSelectedBird().reloadBitmap(context);
+        }
+
+        if(getCurrentPlayer().getSelectedBird() != null) {
+            dragging = getCurrentPlayer().getSelectedBird();
+        }
 
         // Birds will be scaled so that the game is "1.5 ostriches" wide
         Bitmap scaleBird = BitmapFactory.decodeResource(context.getResources(), R.drawable.ostrich);
