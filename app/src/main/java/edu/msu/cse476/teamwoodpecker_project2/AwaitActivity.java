@@ -103,6 +103,14 @@ public class AwaitActivity extends ActionBarActivity {
             waitOnGameThread.interrupt();
         }
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Cloud cloud = new Cloud();
+                cloud.deleteGameOnServer(userName, password);
+            }
+        }).start();
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

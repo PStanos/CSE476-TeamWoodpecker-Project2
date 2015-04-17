@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -41,8 +42,10 @@ public class GameActivity extends ActionBarActivity {
         local_username = getIntent().getExtras().getString(LOCAL_NAME);
         local_password = getIntent().getExtras().getString(LOCAL_PASSWORD);
 
+
         TextView tv = (TextView)findViewById(R.id.placementText);
-        tv.setText(String.format(getString(R.string.bird_placement_info), gameView.getGame().getCurrentPlayerName()));
+        tv.setText(String.format(getString(R.string.bird_placement_info),
+                gameView.getGame().getCurrentPlayerName()));
 
         gameView.reloadBirds();
 
@@ -60,28 +63,28 @@ public class GameActivity extends ActionBarActivity {
         Bundle bundle = new Bundle();
         gameView.getGame().saveInstanceState(bundle, this);
 
-            if (gameView.inGameOverState()) {
+        if (gameView.inGameOverState()) {
 
-                Intent intent = new Intent(this, FinalScoreActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                finish();
-            } else if (gameView.inSelectionState()) {
+            Intent intent = new Intent(this, FinalScoreActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtras(bundle);
+            startActivity(intent);
+            finish();
+        } else if (gameView.inSelectionState()) {
 
-                Intent intent = new Intent(this, SelectionActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                finish();
+            Intent intent = new Intent(this, SelectionActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtras(bundle);
+            startActivity(intent);
+            finish();
+        }
+        else{
+            if(!local_username.equals(gameView.getGame().getCurrentPlayerName())) {
+                // if game is in waiting state:
+                WaitOnUpdateActivity dlgWait = new WaitOnUpdateActivity();
+                dlgWait.show(getFragmentManager(), "wait");
             }
-            else{
-                if(!local_username.equals(gameView.getGame().getCurrentPlayerName())) {
-                    // if game is in waiting state:
-                    WaitOnUpdateActivity dlgWait = new WaitOnUpdateActivity();
-                    dlgWait.show(getFragmentManager(), "wait");
-                }
-            }
+        }
 
         TextView tv = (TextView)findViewById(R.id.placementText);
         tv.setText(String.format(getString(R.string.bird_placement_info),
@@ -96,6 +99,27 @@ public class GameActivity extends ActionBarActivity {
         gameView.saveInstanceState(bundle, this);
     }
 
+
+
+    public void onQuit(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Cloud cloud = new Cloud();
+                cloud.deleteGameOnServer(local_username, local_password);
+            }
+        }).start();
+
+        getMenuInflater().inflate(R.menu.menu_await, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -114,11 +138,6 @@ public class GameActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void onQuit(){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
     }
 
 }

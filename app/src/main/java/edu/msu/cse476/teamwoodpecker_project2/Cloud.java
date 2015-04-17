@@ -48,6 +48,7 @@ public class Cloud {
     private static final String WAIT_GAME_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/waitgame.php";
     private static final String UPDATE_GAME_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/updategame.php";
     private static final String GET_GAME_DATA_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/lobbyscript.php";
+    private static final String DELETE_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/deletegame.php";
 
     public boolean attemptLogin(final View view, String userId, String password) {
 
@@ -434,5 +435,49 @@ public class Cloud {
 
     public Game parseGameXML(Context context, XmlPullParser parser) throws IOException, XmlPullParserException {
         return Game.deserialize(context, parser);
+    }
+
+    public boolean deleteGameOnServer(String username, String password)
+    {
+        String query = DELETE_URL + "?user=" + username + "&pw=" + password;
+
+        try {
+            URL url = new URL(query);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            int responseCode = conn.getResponseCode();
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                return false;
+            }
+
+            XmlPullParser xml = Xml.newPullParser();
+            xml.setInput(conn.getInputStream(), "UTF-8");
+
+            xml.nextTag();      // Advance to first tag
+            xml.require(XmlPullParser.START_TAG, null, "game");
+            String status = xml.getAttributeValue(null, "status");
+
+            if(status.equals("yes")) {
+                return true;
+            }
+            else {
+                String msg = xml.getAttributeValue(null, "msg");
+                if(msg.equals("user error")) {
+                    // fail silently for now
+                }
+                else if(msg.equals("password error")) {
+                    // fail silently for now
+                }
+            }
+
+            return false;
+
+        } catch (MalformedURLException e) {
+            return false;
+        } catch(XmlPullParserException ex) {
+            return false;
+        } catch (IOException ex) {
+            return false;
+        }
     }
 }

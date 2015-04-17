@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -135,6 +136,25 @@ public class SelectionActivity extends ActionBarActivity {
         }
     }
 
+    public void onQuit(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Cloud cloud = new Cloud();
+                cloud.deleteGameOnServer(userName, password);
+            }
+        }).start();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_await, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -155,10 +175,6 @@ public class SelectionActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onQuit(){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
 
     public String getUser(){return userName;}
     public String getPass(){return password;}

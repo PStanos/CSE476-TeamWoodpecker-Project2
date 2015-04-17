@@ -40,10 +40,10 @@
             android:name=".CreateUserActivity"
             android:label="@string/title_activity_create_user" >
         </activity>
-        <activity
+ <!--       <activity
             android:name="edu.msu.stanospa.teamgoldfinch_project1.WaitOnUpdateActivity"
             android:label="@string/title_activity_wait_on_update" >
-        </activity>
+        </activity>  -->
         <activity
             android:name=".WaitOnUpdateActivity"
             android:label="@string/title_activity_wait_on_update" >
