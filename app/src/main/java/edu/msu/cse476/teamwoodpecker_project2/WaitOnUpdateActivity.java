@@ -10,6 +10,8 @@ import android.view.View;
 
 public class WaitOnUpdateActivity extends DialogFragment {
 
+    Thread serverThread;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -27,12 +29,15 @@ public class WaitOnUpdateActivity extends DialogFragment {
         builder.setNegativeButton(R.string.quit_game, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
+                if(serverThread != null && serverThread.isAlive()){
+                    serverThread.interrupt();
+                }
                 ((GameActivity)getActivity()).onQuitGame();
             }
         });
 
 
-        new Thread(new Runnable() {
+        serverThread = new Thread(new Runnable() {
 
             @Override
             public void run() {
@@ -45,21 +50,22 @@ public class WaitOnUpdateActivity extends DialogFragment {
                         ((GameActivity)viewGame.getContext()).updateGame(game);
                     }
                 });
-/*
-                viewGame.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        // TODO: UI update work here if toasts are needed
-                    }
-                });
-*/
                 dismiss();
-
             }
-        }).start();
+        });
+        serverThread.start();
 
         AlertDialog dlg = builder.create();
         dlg.setCanceledOnTouchOutside(false);
         return dlg;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if(serverThread != null && serverThread.isAlive()){
+            serverThread.interrupt();
+        }
     }
 }

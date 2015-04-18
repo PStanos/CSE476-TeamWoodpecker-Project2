@@ -21,6 +21,8 @@ public class WaitOnSelectActivity extends DialogFragment {
     private static final String LOCAL_NAME = "local_name";
     private static final String LOCAL_PASSWORD = "local_password";
 
+    Thread serverThread;
+
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -36,19 +38,20 @@ public class WaitOnSelectActivity extends DialogFragment {
         builder.setNegativeButton(R.string.quit_game, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
+                if(serverThread != null && serverThread.isAlive()){
+                    serverThread.interrupt();
+                }
                 ((SelectionActivity)getActivity()).onQuitGame();
             }
         });
 
         final SelectionView viewSelect = (SelectionView)getActivity().findViewById(R.id.selectionView);
 
-        new Thread(new Runnable() {
+        serverThread = new Thread(new Runnable() {
 
             @Override
             public void run() {
                 Cloud cloud = new Cloud();
-
-//                cloud.submitUpdatedGame(viewSelect.getContext(), game, game.getLocalName(), game.getLocalPassword())
                 final Game game = cloud.waitOnOpponent(viewSelect.getContext(), ((SelectionActivity) viewSelect.getContext()).getUser(), ((SelectionActivity) viewSelect.getContext()).getPass());
 
                 ((SelectionActivity)viewSelect.getContext()).runOnUiThread(new Runnable() {
@@ -57,21 +60,23 @@ public class WaitOnSelectActivity extends DialogFragment {
                         ((SelectionActivity)viewSelect.getContext()).updateGame(game);
                     }
                 });
-/*
-                viewGame.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        // TODO: UI update work here
-                    }
-                });
-*/
                 dismiss();
 
             }
-        }).start();
+        });
+        serverThread.start();
 
         AlertDialog dlg = builder.create();
         dlg.setCanceledOnTouchOutside(false);
         return dlg;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if(serverThread != null && serverThread.isAlive()){
+            serverThread.interrupt();
+        }
     }
 }
