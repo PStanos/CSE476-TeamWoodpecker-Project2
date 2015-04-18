@@ -136,6 +136,8 @@ public class GameActivity extends ActionBarActivity {
         super.onSaveInstanceState(bundle);
 
         gameView.saveInstanceState(bundle, this);
+        bundle.putString(LOCAL_NAME, userName);
+        bundle.putString(LOCAL_PASSWORD, password);
     }
 
 

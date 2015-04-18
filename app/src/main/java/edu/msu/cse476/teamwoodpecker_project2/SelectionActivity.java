@@ -36,6 +36,8 @@ public class SelectionActivity extends ActionBarActivity {
 
         selectionView.saveInstanceState(bundle);
         game.saveInstanceState(bundle, this);
+        bundle.putString(LOCAL_NAME, userName);
+        bundle.putString(LOCAL_PASSWORD, password);
     }
 
     @Override
