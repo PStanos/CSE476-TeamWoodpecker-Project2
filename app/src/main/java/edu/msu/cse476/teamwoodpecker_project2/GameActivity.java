@@ -62,6 +62,15 @@ public class GameActivity extends ActionBarActivity {
         Bundle bundle = new Bundle();
         gameView.getGame().saveInstanceState(bundle, this);
 
+        final GameActivity act = this;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Cloud cloud = new Cloud();
+                cloud.submitUpdatedGame(act, gameView.getGame(), userName, password);
+            }
+        }).start();
+
         if (gameView.inGameOverState()) {
 
             Intent intent = new Intent(this, FinalScoreActivity.class);
@@ -93,15 +102,6 @@ public class GameActivity extends ActionBarActivity {
 
     public void updateGame(final Game g){
         gameView.setGame(g);
-
-        final GameActivity act = this;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Cloud cloud = new Cloud();
-                cloud.submitUpdatedGame(act, g, userName, password);
-            }
-        }).start();
 
         if(gameView.getGame().inSelectionState()) {
             Bundle bundle = new Bundle();
