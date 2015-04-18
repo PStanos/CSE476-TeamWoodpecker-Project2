@@ -3,6 +3,7 @@ package edu.msu.cse476.teamwoodpecker_project2;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +38,15 @@ public class AwaitActivity extends ActionBarActivity {
             @Override
             public void run() {
                 Cloud cloud = new Cloud();
+
+                Game existingGame = cloud.userGame(getBaseContext(), userName, password);
+
+                if(existingGame != null) {
+                    game = existingGame;
+                    onPlayersConnected();
+
+                    return;
+                }
 
                 Cloud.NewGameResponse response = cloud.waitForGame(getBaseContext(), userName, password);
 
@@ -77,7 +87,22 @@ public class AwaitActivity extends ActionBarActivity {
         Bundle bundle = new Bundle();
         game.saveInstanceState(bundle, this);
 
-        Intent intent = new Intent(this, SelectionActivity.class);
+        Intent intent = null;
+
+        if(game.inSelectionState()) {
+            intent = new Intent(this, SelectionActivity.class);
+        }
+        else if(game.inPlacementState()) {
+            intent = new Intent(this, GameActivity.class);
+        }
+        else if(game.inGameOverState()) {
+            intent = new Intent(this, FinalScoreActivity.class);
+        }
+        else {
+            Log.e(null, "Game exists but is not in any playable state!");
+            intent = new Intent(this, MainActivity.class);
+        }
+
         intent.putExtras(bundle);
         intent.putExtra(LOCAL_NAME, userName);
         intent.putExtra(LOCAL_PASSWORD, password);

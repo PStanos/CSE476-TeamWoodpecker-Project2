@@ -50,6 +50,7 @@ public class Cloud {
     private static final String UPDATE_GAME_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/updategame.php";
     private static final String GET_GAME_DATA_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/lobbyscript.php";
     private static final String DELETE_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/deletegame.php";
+    private static final String FETCH_GAME_URL = "http://webdev.cse.msu.edu/~chiversb/cse476/proj02/fetchxml.php";
 
     public boolean attemptLogin(final View view, String userId, String password) {
 
@@ -181,6 +182,58 @@ public class Cloud {
             Log.e("cloud", ex.getMessage());
             return false;
         }
+    }
+
+    public Game userGame(Context context, String userName, String password) {
+        String query = FETCH_GAME_URL + "?user=" + userName + "&pw=" + password;
+
+        try {
+            URL url = new URL(query);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            int responseCode = conn.getResponseCode();
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                return null;
+            }
+
+            XmlPullParser xml = Xml.newPullParser();
+            xml.setInput(conn.getInputStream(), "UTF-8");
+
+            xml.nextTag();
+
+            if(xml.getEventType() == XmlPullParser.START_TAG) {
+                boolean parseGame = false;
+
+                try {
+                    xml.require(XmlPullParser.START_TAG, null, "game_data");
+                    parseGame = true;
+                }
+                catch (XmlPullParserException ex) {
+
+                }
+
+                if(parseGame) {
+                    return parseGameXML(context, xml);
+                }
+                else {
+                    return null;
+                }
+            }
+            else {
+                return null;
+            }
+
+        } catch (MalformedURLException ex) {
+            Log.e("cloud", ex.getMessage());
+            return null;
+        } catch(XmlPullParserException ex) {
+            Log.e("cloud", ex.getMessage());
+            return null;
+        } catch (IOException ex) {
+            Log.e("cloud", ex.getMessage());
+            return null;
+        }
+
     }
 
     public NewGameResponse waitForGame(final Context context, String userName, String password) {
