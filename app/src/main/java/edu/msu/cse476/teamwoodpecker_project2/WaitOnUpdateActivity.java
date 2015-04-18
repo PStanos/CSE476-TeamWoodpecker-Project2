@@ -50,7 +50,7 @@ public class WaitOnUpdateActivity extends DialogFragment {
                     ((GameActivity)viewGame.getContext()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(viewGame.getContext(), R.string.opponent_quit, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(viewGame.getContext(), R.string.game_not_found, Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(viewGame.getContext(), MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

@@ -31,6 +31,8 @@ public class SelectionActivity extends ActionBarActivity {
     private String userName = null;
     private String password = null;
 
+    Thread submitDataThread;
+
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
         if(getFragmentManager().findFragmentByTag("wait") != null) {
@@ -81,37 +83,46 @@ public class SelectionActivity extends ActionBarActivity {
     }
 
     public void onConfirmSelection(View view) {
-        Bundle bundle = new Bundle();
-        game.saveInstanceState(bundle, this);
+        if(submitDataThread != null && submitDataThread.isAlive()) {
+            return;
+        }
 
         if (selectionView.isSelected()) {
             selectionView.setPlayerSelection(game);
 
             final SelectionActivity act = this;
-            new Thread(new Runnable() {
+            submitDataThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     Cloud cloud = new Cloud();
-                    cloud.submitUpdatedGame(act, game, userName, password);
-                }
-            }).start();
+                    while(!cloud.submitUpdatedGame(act, game, userName, password)) {
 
-            if (game.inPlacementState()) {
-                Intent intent = new Intent(this, GameActivity.class);
-                intent.putExtras(bundle);
-                //intent.putExtras(intent.getExtras());
-                intent.putExtra(LOCAL_NAME, getIntent().getExtras().getString(LOCAL_NAME));
-                intent.putExtra(LOCAL_PASSWORD, getIntent().getExtras().getString(LOCAL_PASSWORD));
-                startActivity(intent);
-                finish();
-            } else {
-                setPlayerSelectionText();
-                if (!userName.equals(game.getCurrentPlayerName())) {
-                    WaitOnSelectActivity dlgWaitSelect = new WaitOnSelectActivity();
-                    dlgWaitSelect.show(getFragmentManager(), "wait");
-                }
-            }
+                        act.runOnUiThread(new Runnable() {
 
+                            @Override
+                            public void run() {
+                                Toast.makeText(act, R.string.submit_data_failed, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            break;
+                        }
+                    }
+
+                    act.runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            onGameDataSubmitted();
+                        }
+                    });
+                }
+            });
+
+            submitDataThread.start();
         } else {
             if (noBirdToast == null) {
                 noBirdToast = Toast.makeText(this, getString(R.string.no_bird_toast), Toast.LENGTH_SHORT);
@@ -120,6 +131,27 @@ public class SelectionActivity extends ActionBarActivity {
             v.setTextColor(Color.RED);
             noBirdToast.show();
             Log.i("onConfirmSelection", "bird not selected");
+        }
+    }
+
+    private void onGameDataSubmitted() {
+        Bundle bundle = new Bundle();
+        game.saveInstanceState(bundle, this);
+
+        if (game.inPlacementState()) {
+            Intent intent = new Intent(this, GameActivity.class);
+            intent.putExtras(bundle);
+            //intent.putExtras(intent.getExtras());
+            intent.putExtra(LOCAL_NAME, getIntent().getExtras().getString(LOCAL_NAME));
+            intent.putExtra(LOCAL_PASSWORD, getIntent().getExtras().getString(LOCAL_PASSWORD));
+            startActivity(intent);
+            finish();
+        } else {
+            setPlayerSelectionText();
+            if (!userName.equals(game.getCurrentPlayerName())) {
+                WaitOnSelectActivity dlgWaitSelect = new WaitOnSelectActivity();
+                dlgWaitSelect.show(getFragmentManager(), "wait");
+            }
         }
     }
 
@@ -148,6 +180,10 @@ public class SelectionActivity extends ActionBarActivity {
                 cloud.deleteGameOnServer(userName, password);
             }
         }).start();
+
+        if(submitDataThread != null && submitDataThread.isAlive()) {
+            submitDataThread.interrupt();
+        }
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

@@ -1,6 +1,8 @@
 package edu.msu.cse476.teamwoodpecker_project2;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 import android.util.Xml;
 import android.view.View;
@@ -57,6 +59,23 @@ public class Cloud {
         String query = LOGIN_URL + "?user=" + userId + "&pw=" + password;
 
         try {
+            // Adapted from http://stackoverflow.com/questions/10863030/detecting-if-android-is-connected-to-internet
+            ConnectivityManager manager = (ConnectivityManager)view.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetwork = manager.getActiveNetworkInfo();
+
+            if(activeNetwork == null) {
+
+                view.post(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Toast.makeText(view.getContext(), R.string.network_action_failed, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                return false;
+            }
+
             URL url = new URL(query);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -314,6 +333,20 @@ public class Cloud {
 
         while(true) {
             try {
+                // Adapted from http://stackoverflow.com/questions/10863030/detecting-if-android-is-connected-to-internet
+                ConnectivityManager manager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo activeNetwork = manager.getActiveNetworkInfo();
+
+                if(activeNetwork == null) {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+
+                    continue;
+                }
+
                 URL url = new URL(query);
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();

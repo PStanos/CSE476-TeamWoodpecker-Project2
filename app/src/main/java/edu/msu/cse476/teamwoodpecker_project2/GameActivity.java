@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class GameActivity extends ActionBarActivity {
@@ -20,6 +21,7 @@ public class GameActivity extends ActionBarActivity {
     private String userName;
     private String password;
 
+    Thread submitDataThread;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -57,19 +59,50 @@ public class GameActivity extends ActionBarActivity {
     }
 
     public void onPlaceBird(View view) {
+        if(submitDataThread != null && submitDataThread.isAlive()) {
+            return;
+        }
+
         gameView.onPlaceBird();
 
-        Bundle bundle = new Bundle();
-        gameView.getGame().saveInstanceState(bundle, this);
-
         final GameActivity act = this;
-        new Thread(new Runnable() {
+        submitDataThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 Cloud cloud = new Cloud();
-                cloud.submitUpdatedGame(act, gameView.getGame(), userName, password);
+                while(!cloud.submitUpdatedGame(act, gameView.getGame(), userName, password)) {
+
+                    act.runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            Toast.makeText(act, R.string.submit_data_failed, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
+
+                act.runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        onGameDataSubmitted();
+                    }
+                });
             }
-        }).start();
+        });
+
+        submitDataThread.start();
+    }
+
+    private void onGameDataSubmitted() {
+        Bundle bundle = new Bundle();
+        gameView.getGame().saveInstanceState(bundle, this);
 
         if (gameView.inGameOverState()) {
 
@@ -154,6 +187,10 @@ public class GameActivity extends ActionBarActivity {
                 cloud.deleteGameOnServer(userName, password);
             }
         }).start();
+
+        if(submitDataThread != null && submitDataThread.isAlive()) {
+            submitDataThread.interrupt();
+        }
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
