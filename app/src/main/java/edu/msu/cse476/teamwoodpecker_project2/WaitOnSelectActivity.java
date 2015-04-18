@@ -36,7 +36,7 @@ public class WaitOnSelectActivity extends DialogFragment {
         builder.setNegativeButton(R.string.quit_game, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                // TODO: handle quitting here
+                ((SelectionActivity)getActivity()).onQuitGame();
             }
         });
 

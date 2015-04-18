@@ -22,14 +22,15 @@ public class WaitOnUpdateActivity extends DialogFragment {
         View view = inflater.inflate(R.layout.activity_wait_on_update, null);
         builder.setView(view);
 
+        final GameView viewGame = (GameView)getActivity().findViewById(R.id.gameView);
+
         builder.setNegativeButton(R.string.quit_game, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                // TODO: handle quitting here
+                ((GameActivity)getActivity()).onQuitGame();
             }
         });
 
-        final GameView viewGame = (GameView)getActivity().findViewById(R.id.gameView);
 
         new Thread(new Runnable() {
 
