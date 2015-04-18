@@ -177,23 +177,6 @@ public class Game implements Serializable{
      */
     public boolean inGameOverState() { return state.equals(GameState.gameOver); }
 
-/*
-    public String getLocalPassword() {
-        return localPassword;
-    }
-
-    public void setLocalPassword(String localPassword) {
-        this.localPassword = localPassword;
-    }
-
-    public String getLocalName() {
-        return localName;
-    }
-
-    public void setLocalName(String localName) {
-        this.localName = localName;
-    }
-*/
 
     /**
      * Get the current player who's turn it is

@@ -142,4 +142,24 @@ public class GameActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public String getUser(){return local_username;}
+    public String getPass(){return local_password;}
+
+
+    public void updateGame(Game g){
+        Game game = g;
+
+        if(game.inSelectionState()) {
+            Bundle bundle = new Bundle();
+            game.saveInstanceState(bundle, this);
+
+            Intent intent = new Intent(this, SelectionActivity.class);
+            intent.putExtras(bundle);
+            intent.putExtra(LOCAL_NAME, getIntent().getExtras().getString(LOCAL_NAME));
+            intent.putExtra(LOCAL_PASSWORD, getIntent().getExtras().getString(LOCAL_PASSWORD));
+            startActivity(intent);
+            finish();
+        }
+    }
+
 }

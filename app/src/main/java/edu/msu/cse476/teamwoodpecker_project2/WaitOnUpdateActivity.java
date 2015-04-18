@@ -36,13 +36,22 @@ public class WaitOnUpdateActivity extends DialogFragment {
             @Override
             public void run() {
                 Cloud cloud = new Cloud();
-                Game updatedGame;
-                updatedGame = null;// cloud.waitOnOpponent(viewGame, viewGame.getGame().getLocalName(), "s");
-                if(updatedGame == null) {
-                    updatedGame = viewGame.getGame();
-                }
-                viewGame.setGame(updatedGame);
+                final Game game = cloud.waitOnOpponent(viewGame.getContext(), (((GameActivity) viewGame.getContext()).getUser()), (((GameActivity) viewGame.getContext()).getPass()));
 
+                ((GameActivity)viewGame.getContext()).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((GameActivity)viewGame.getContext()).updateGame(game);
+                    }
+                });
+/*
+                viewGame.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        // TODO: UI update work here if toasts are needed
+                    }
+                });
+*/
                 dismiss();
 
             }

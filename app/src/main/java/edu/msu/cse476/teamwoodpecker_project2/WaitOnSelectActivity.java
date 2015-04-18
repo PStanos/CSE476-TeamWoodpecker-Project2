@@ -48,8 +48,6 @@ public class WaitOnSelectActivity extends DialogFragment {
             public void run() {
                 Cloud cloud = new Cloud();
 
-
-
 //                cloud.submitUpdatedGame(viewSelect.getContext(), game, game.getLocalName(), game.getLocalPassword())
                 final Game game = cloud.waitOnOpponent(viewSelect.getContext(), ((SelectionActivity) viewSelect.getContext()).getUser(), ((SelectionActivity) viewSelect.getContext()).getPass());
 
@@ -60,13 +58,10 @@ public class WaitOnSelectActivity extends DialogFragment {
                     }
                 });
 /*
-
-
                 viewGame.post(new Runnable() {
                     @Override
                     public void run() {
                         // TODO: UI update work here
-
                     }
                 });
 */
