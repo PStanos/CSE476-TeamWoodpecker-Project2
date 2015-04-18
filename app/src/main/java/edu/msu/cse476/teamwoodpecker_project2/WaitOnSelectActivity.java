@@ -54,6 +54,10 @@ public class WaitOnSelectActivity extends DialogFragment {
                 Cloud cloud = new Cloud();
                 final Game game = cloud.waitOnOpponent(viewSelect.getContext(), ((SelectionActivity) viewSelect.getContext()).getUser(), ((SelectionActivity) viewSelect.getContext()).getPass());
 
+                if(game == null) {
+                    return;
+                }
+
                 ((SelectionActivity)viewSelect.getContext()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -71,12 +75,10 @@ public class WaitOnSelectActivity extends DialogFragment {
         return dlg;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
+    public void stopWaiting() {
         if(serverThread != null && serverThread.isAlive()){
             serverThread.interrupt();
+            dismiss();
         }
     }
 }

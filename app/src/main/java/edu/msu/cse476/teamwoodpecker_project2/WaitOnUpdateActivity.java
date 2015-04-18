@@ -44,6 +44,10 @@ public class WaitOnUpdateActivity extends DialogFragment {
                 Cloud cloud = new Cloud();
                 final Game game = cloud.waitOnOpponent(viewGame.getContext(), (((GameActivity) viewGame.getContext()).getUser()), (((GameActivity) viewGame.getContext()).getPass()));
 
+                if(game == null) {
+                    return;
+                }
+
                 ((GameActivity)viewGame.getContext()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -60,12 +64,10 @@ public class WaitOnUpdateActivity extends DialogFragment {
         return dlg;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
+    public void stopWaiting() {
         if(serverThread != null && serverThread.isAlive()){
             serverThread.interrupt();
+            dismiss();
         }
     }
 }

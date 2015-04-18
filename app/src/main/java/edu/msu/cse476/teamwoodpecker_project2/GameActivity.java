@@ -133,6 +133,10 @@ public class GameActivity extends ActionBarActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
+        if(getFragmentManager().findFragmentByTag("wait") != null) {
+            ((WaitOnUpdateActivity)getFragmentManager().findFragmentByTag("wait")).stopWaiting();
+        }
+
         super.onSaveInstanceState(bundle);
 
         gameView.saveInstanceState(bundle, this);

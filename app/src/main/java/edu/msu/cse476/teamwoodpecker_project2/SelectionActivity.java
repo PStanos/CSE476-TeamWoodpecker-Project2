@@ -1,5 +1,6 @@
 package edu.msu.cse476.teamwoodpecker_project2;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
@@ -32,6 +33,10 @@ public class SelectionActivity extends ActionBarActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
+        if(getFragmentManager().findFragmentByTag("wait") != null) {
+            ((WaitOnSelectActivity)getFragmentManager().findFragmentByTag("wait")).stopWaiting();
+        }
+
         super.onSaveInstanceState(bundle);
 
         selectionView.saveInstanceState(bundle);
