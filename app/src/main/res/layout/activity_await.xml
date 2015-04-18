@@ -13,24 +13,6 @@
         android:layout_centerInParent="true"
         android:gravity="center_horizontal" />
 
-    <Button
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="*quit connection*"
-        android:id="@+id/quitButton"
-        android:onClick="onQuitGame"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
 
-    <Button
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="*connected*"
-        android:id="@+id/button"
-        android:onClick="onPlayersConnected"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

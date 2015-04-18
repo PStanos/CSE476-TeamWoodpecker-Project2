@@ -3,7 +3,7 @@ package edu.msu.cse476.teamwoodpecker_project2;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;

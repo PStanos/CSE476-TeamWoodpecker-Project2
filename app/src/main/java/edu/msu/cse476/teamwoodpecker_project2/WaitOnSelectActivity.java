@@ -1,20 +1,20 @@
 package edu.msu.cse476.teamwoodpecker_project2;
 
-import android.app.Activity;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+
+
 import android.view.View;
 import android.widget.Toast;
 
-import java.io.InterruptedIOException;
+
 
 import edu.msu.cse476.teamwoodpecker_project2.R;
 
