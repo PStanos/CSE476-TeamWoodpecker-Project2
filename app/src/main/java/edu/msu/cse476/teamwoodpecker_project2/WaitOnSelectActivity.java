@@ -5,12 +5,14 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.io.InterruptedIOException;
 
@@ -55,6 +57,18 @@ public class WaitOnSelectActivity extends DialogFragment {
                 final Game game = cloud.waitOnOpponent(viewSelect.getContext(), ((SelectionActivity) viewSelect.getContext()).getUser(), ((SelectionActivity) viewSelect.getContext()).getPass());
 
                 if(game == null) {
+                    ((SelectionActivity)viewSelect.getContext()).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(viewSelect.getContext(), R.string.opponent_quit, Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(viewSelect.getContext(), MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            startActivity(intent);
+                            ((SelectionActivity)viewSelect.getContext()).finish();
+                        }
+                    });
+
                     return;
                 }
 

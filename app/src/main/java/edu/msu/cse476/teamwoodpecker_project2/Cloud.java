@@ -335,7 +335,12 @@ public class Cloud {
                         parseGame = true;
                     }
                     catch (XmlPullParserException ex) {
+                        xml.require(XmlPullParser.START_TAG, null, "game");
+                        String msg = xml.getAttributeValue(null, "msg");
 
+                        if(msg.equals("Game not found")) {
+                            return null;
+                        }
                     }
 
                     if(parseGame) {

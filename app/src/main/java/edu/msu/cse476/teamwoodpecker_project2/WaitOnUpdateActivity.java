@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 public class WaitOnUpdateActivity extends DialogFragment {
 
@@ -45,6 +47,18 @@ public class WaitOnUpdateActivity extends DialogFragment {
                 final Game game = cloud.waitOnOpponent(viewGame.getContext(), (((GameActivity) viewGame.getContext()).getUser()), (((GameActivity) viewGame.getContext()).getPass()));
 
                 if(game == null) {
+                    ((GameActivity)viewGame.getContext()).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(viewGame.getContext(), R.string.opponent_quit, Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(viewGame.getContext(), MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            startActivity(intent);
+                            ((GameActivity)viewGame.getContext()).finish();
+                        }
+                    });
+
                     return;
                 }
 
