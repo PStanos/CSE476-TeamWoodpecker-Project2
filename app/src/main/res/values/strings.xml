@@ -52,5 +52,6 @@
     <string name="update_game_connection_failed">Failed to update game</string>
     <string name="title_activity_wait_on_select">WaitOnSelectActivity</string>
     <string name="menu_Quit">Quit Connection</string>
+    <string name="opponent_quit">No game: your opponent has quit</string>
 
 </resources>
