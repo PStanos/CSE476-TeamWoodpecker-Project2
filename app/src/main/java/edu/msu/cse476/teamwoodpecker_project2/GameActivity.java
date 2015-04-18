@@ -75,6 +75,8 @@ public class GameActivity extends ActionBarActivity {
 
             Intent intent = new Intent(this, FinalScoreActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra(LOCAL_NAME, userName);
+            intent.putExtra(LOCAL_PASSWORD, password);
             intent.putExtras(bundle);
             startActivity(intent);
             finish();
@@ -82,22 +84,23 @@ public class GameActivity extends ActionBarActivity {
 
             Intent intent = new Intent(this, SelectionActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra(LOCAL_NAME, userName);
+            intent.putExtra(LOCAL_PASSWORD, password);
             intent.putExtras(bundle);
             startActivity(intent);
             finish();
         }
-        else{
+        else {
+            TextView tv = (TextView)findViewById(R.id.placementText);
+            tv.setText(String.format(getString(R.string.bird_placement_info),
+                    gameView.getGame().getCurrentPlayerName()));
+
             if(!userName.equals(gameView.getGame().getCurrentPlayerName())) {
                 // if game is in waiting state:
                 WaitOnUpdateActivity dlgWait = new WaitOnUpdateActivity();
                 dlgWait.show(getFragmentManager(), "wait");
             }
         }
-
-        TextView tv = (TextView)findViewById(R.id.placementText);
-        tv.setText(String.format(getString(R.string.bird_placement_info),
-                gameView.getGame().getCurrentPlayerName()));
-
     }
 
     public void updateGame(final Game g){
@@ -109,8 +112,8 @@ public class GameActivity extends ActionBarActivity {
 
             Intent intent = new Intent(this, SelectionActivity.class);
             intent.putExtras(bundle);
-            intent.putExtra(LOCAL_NAME, getIntent().getExtras().getString(LOCAL_NAME));
-            intent.putExtra(LOCAL_PASSWORD, getIntent().getExtras().getString(LOCAL_PASSWORD));
+            intent.putExtra(LOCAL_NAME, userName);
+            intent.putExtra(LOCAL_PASSWORD, password);
             startActivity(intent);
             finish();
         }
@@ -120,6 +123,8 @@ public class GameActivity extends ActionBarActivity {
 
             Intent intent = new Intent(this, FinalScoreActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra(LOCAL_NAME, userName);
+            intent.putExtra(LOCAL_PASSWORD, password);
             intent.putExtras(bundle);
             startActivity(intent);
             finish();
