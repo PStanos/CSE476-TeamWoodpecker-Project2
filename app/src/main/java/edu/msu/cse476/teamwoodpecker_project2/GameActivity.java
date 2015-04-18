@@ -107,7 +107,7 @@ public class GameActivity extends ActionBarActivity {
             Bundle bundle = new Bundle();
             gameView.getGame().saveInstanceState(bundle, this);
 
-            Intent intent = new Intent(this, Selection.class);
+            Intent intent = new Intent(this, SelectionActivity.class);
             intent.putExtras(bundle);
             intent.putExtra(LOCAL_NAME, getIntent().getExtras().getString(LOCAL_NAME));
             intent.putExtra(LOCAL_PASSWORD, getIntent().getExtras().getString(LOCAL_PASSWORD));
@@ -153,7 +153,7 @@ public class GameActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_await, menu);
+        getMenuInflater().inflate(R.menu.menu_game, menu);
         return true;
     }
 
