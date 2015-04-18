@@ -258,9 +258,10 @@ public class Game implements Serializable{
         state = GameState.birdSelection;
     }
 
-    private void setPlayers(Player p1, Player p2) {
+    private void setPlayers(Player p1, Player p2, Player win) {
         player1 = p1;
         player2 = p2;
+        winner = win;
     }
 
     private void setProgress(int playerTurn, int roundNum, GameState state) {
@@ -443,7 +444,22 @@ public class Game implements Serializable{
         serializer.attribute(null, "roundNum", String.valueOf(roundNum));
         serializer.attribute(null, "gameState", String.valueOf(state.getValue()));
 
+        int winnerPlayer = -1;
+
+        if(winner != null) {
+            if(winner.getName().equals(player1.getName())) {
+                winnerPlayer = 0;
+            }
+            else if(winner.getName().equals(player2.getName())) {
+                winnerPlayer = 1;
+            }
+            else {
+                Log.e("", "Winner is neither player!");
+            }
+        }
+
         serializer.startTag(null, "players");
+        serializer.attribute(null, "winner", String.valueOf(winnerPlayer));
         player1.serialize(serializer);
         player2.serialize(serializer);
         serializer.endTag(null, "players");
@@ -473,10 +489,20 @@ public class Game implements Serializable{
 
         parser.nextTag();
         parser.require(XmlPullParser.START_TAG, null, "players");
+        int winnerPlayer = Integer.parseInt(parser.getAttributeValue(null, "winner"));
         Player player1 = Player.deserialize(context, parser);
         Player player2 = Player.deserialize(context, parser);
 
-        game.setPlayers(player1, player2);
+        Player winner = null;
+
+        if(winnerPlayer == 0) {
+            winner = player1;
+        }
+        else if(winnerPlayer == 1) {
+            winner = player2;
+        }
+
+        game.setPlayers(player1, player2, winner);
 
         parser.nextTag();
         parser.require(XmlPullParser.END_TAG, null, "players");

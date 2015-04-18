@@ -43,25 +43,22 @@ public class SelectionActivity extends ActionBarActivity {
         super.onCreate(bundle);
         setContentView(R.layout.activity_selection);
 
+        selectionView = (SelectionView)findViewById(R.id.selectionView);
+
         if(bundle != null) {
             game = (Game)bundle.getSerializable(getString(R.string.game_state));
             userName = bundle.getString(LOCAL_NAME);
             password = bundle.getString(LOCAL_PASSWORD);
+            selectionView.loadInstanceState(bundle);
         }
         else {
             game = (Game)getIntent().getExtras().getSerializable(getString(R.string.game_state));
             userName = getIntent().getExtras().getString(LOCAL_NAME);
             password = getIntent().getExtras().getString(LOCAL_PASSWORD);
         }
-        selectionView = (SelectionView)findViewById(R.id.selectionView);
 
         this.selectionText = (TextView) findViewById(R.id.playerNameLabel);
         setPlayerSelectionText();
-
-        if (bundle != null){
-            Log.i("onCreate()", "restoring state...");
-            selectionView.loadInstanceState(bundle);
-        }
 
         if( !userName.equals("") && !userName.equals(game.getCurrentPlayerName())) {
             WaitOnSelectActivity dlgWaitSelect = new WaitOnSelectActivity();

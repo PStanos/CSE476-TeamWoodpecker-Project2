@@ -17,8 +17,8 @@ public class GameActivity extends ActionBarActivity {
 
     private static final String LOCAL_NAME = "local_name";
     private static final String LOCAL_PASSWORD = "local_password";
-    private String local_username;
-    private String local_password;
+    private String userName;
+    private String password;
 
 
     @Override
@@ -32,15 +32,15 @@ public class GameActivity extends ActionBarActivity {
 
         if(bundle != null) {
             gameView.loadInstanceState(bundle, this);
-
+            userName = bundle.getString(LOCAL_NAME);
+            password = bundle.getString(LOCAL_PASSWORD);
         }
         else {
             Game game = (Game)getIntent().getExtras().getSerializable(getString(R.string.game_state));
             gameView.setGame(game);
+            userName = getIntent().getExtras().getString(LOCAL_NAME);
+            password = getIntent().getExtras().getString(LOCAL_PASSWORD);
         }
-
-        local_username = getIntent().getExtras().getString(LOCAL_NAME);
-        local_password = getIntent().getExtras().getString(LOCAL_PASSWORD);
 
 
         TextView tv = (TextView)findViewById(R.id.placementText);
@@ -49,12 +49,11 @@ public class GameActivity extends ActionBarActivity {
 
         gameView.reloadBirds();
 
-        if(!local_username.equals(gameView.getGame().getCurrentPlayerName())) {
+        if(!userName.equals(gameView.getGame().getCurrentPlayerName())) {
             // if game is in waiting state:
             WaitOnUpdateActivity dlgWait = new WaitOnUpdateActivity();
             dlgWait.show(getFragmentManager(), "wait");
         }
-
     }
 
     public void onPlaceBird(View view) {
@@ -79,7 +78,7 @@ public class GameActivity extends ActionBarActivity {
             finish();
         }
         else{
-            if(!local_username.equals(gameView.getGame().getCurrentPlayerName())) {
+            if(!userName.equals(gameView.getGame().getCurrentPlayerName())) {
                 // if game is in waiting state:
                 WaitOnUpdateActivity dlgWait = new WaitOnUpdateActivity();
                 dlgWait.show(getFragmentManager(), "wait");
@@ -90,6 +89,41 @@ public class GameActivity extends ActionBarActivity {
         tv.setText(String.format(getString(R.string.bird_placement_info),
                 gameView.getGame().getCurrentPlayerName()));
 
+    }
+
+    public void updateGame(final Game g){
+        gameView.setGame(g);
+
+        final GameActivity act = this;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Cloud cloud = new Cloud();
+                cloud.submitUpdatedGame(act, g, userName, password);
+            }
+        }).start();
+
+        if(gameView.getGame().inSelectionState()) {
+            Bundle bundle = new Bundle();
+            gameView.getGame().saveInstanceState(bundle, this);
+
+            Intent intent = new Intent(this, Selection.class);
+            intent.putExtras(bundle);
+            intent.putExtra(LOCAL_NAME, getIntent().getExtras().getString(LOCAL_NAME));
+            intent.putExtra(LOCAL_PASSWORD, getIntent().getExtras().getString(LOCAL_PASSWORD));
+            startActivity(intent);
+            finish();
+        }
+        else if(gameView.getGame().inGameOverState()) {
+            Bundle bundle = new Bundle();
+            gameView.getGame().saveInstanceState(bundle, this);
+
+            Intent intent = new Intent(this, FinalScoreActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtras(bundle);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override
@@ -106,7 +140,7 @@ public class GameActivity extends ActionBarActivity {
             @Override
             public void run() {
                 Cloud cloud = new Cloud();
-                cloud.deleteGameOnServer(local_username, local_password);
+                cloud.deleteGameOnServer(userName, password);
             }
         }).start();
 
@@ -142,24 +176,7 @@ public class GameActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public String getUser(){return local_username;}
-    public String getPass(){return local_password;}
-
-
-    public void updateGame(Game g){
-        Game game = g;
-
-        if(game.inSelectionState()) {
-            Bundle bundle = new Bundle();
-            game.saveInstanceState(bundle, this);
-
-            Intent intent = new Intent(this, SelectionActivity.class);
-            intent.putExtras(bundle);
-            intent.putExtra(LOCAL_NAME, getIntent().getExtras().getString(LOCAL_NAME));
-            intent.putExtra(LOCAL_PASSWORD, getIntent().getExtras().getString(LOCAL_PASSWORD));
-            startActivity(intent);
-            finish();
-        }
-    }
+    public String getUser(){return userName;}
+    public String getPass(){return password;}
 
 }
