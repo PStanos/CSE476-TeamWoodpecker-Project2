@@ -1,55 +1,66 @@
 
 Project 2 Submission
 
-Group Name: Woodpecker
+Group Name:   Woodpecker
 
 When you have completed the project, complete the following form and include it with your project. Include this file as a text file in the folder with your project when you turn it in. 
 
 For the Checkpoint, Describe a sequence of operations to create a new account and log onto the server:
-	The first activity presented to the user is a login page. To create a new user, click the Create User button at the bottom.
-	Once on that page, enter a username and a password. If the confirm password does not match, an error is displayed. Once the
-	information has been entered, click the Create New User button. If successful, the user is taken back to the main activity.
-	To log in, enter the username and password into the fields and click the Login button. If successful, the user is taken to
-	a dummy activity informing them to wait for the other user.
 
 A functionality checklist will not be provided for the project. Treat this as you would a request from a client and identify what the client requires. 
 
 Member 1: Brian Chivers
 
 Responsiblity:
-Server-Side communications
+    Server-side communications.
+
 
 
 Member 2: Paul Stanos
 
 Responsiblity:
-Client-side communications
+    Client-side communications.
+
 
 
 Member 3: Alex Kambeitz
 
 Responsiblity:
-Activity Sequencing
+    The sequencing of the activities.
+
 
 
 
 
 Provide instructions on how to reach the first editing activity if the login button is not yet functional.
-	See above login details on how to reach the first non-login activity.
-
+	
 User account the server-side communications is running under:
-chiversb@cse.msu.edu
+chiversb
 
 Paths to all server-side scripts: (Such as https://www.cse.msu.edu/~carter/project2/login.php).
 
+https://webdev.cse.msu.edu/~chiversb/cse476/proj02/db.inc.php
+https://webdev.cse.msu.edu/~chiversb/cse476/proj02/deletegame.php
+http://webdev.cse.msu.edu/~chiversb/cse476/proj02/deletelobby.php
+http://webdev.cse.msu.edu/~chiversb/cse476/proj02/fetchxml.php
+http://webdev.cse.msu.edu/~chiversb/cse476/proj02/findplayer.php
+http://webdev.cse.msu.edu/~chiversb/cse476/proj02/joinlobby.php
+http://webdev.cse.msu.edu/~chiversb/cse476/proj02/lobbyscript.php
 http://webdev.cse.msu.edu/~chiversb/cse476/proj02/login.php
+http://webdev.cse.msu.edu/~chiversb/cse476/proj02/newgame.php
 http://webdev.cse.msu.edu/~chiversb/cse476/proj02/newuser.php
+http://webdev.cse.msu.edu/~chiversb/cse476/proj02/updategame.php
+http://webdev.cse.msu.edu/~chiversb/cse476/proj02/waitgame.php
+
 
 Where in the code the passive connection timeout is set (provide a script name and line number):
 
+waitgame.php, lines 46-55
+
 Calls in the code to the server (provide a class name and function, or URL used for debugging):
-	Class: Cloud.java
-	Login function: attemptLogin(final View view, String userId, String password)
-	Create user function: createUser(final View view, String userId, String password)
+
+Cloud class
+
+Lines 61, 132, 193, 266, 359, 463, 
 
 
