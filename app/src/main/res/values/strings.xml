@@ -41,14 +41,12 @@
     <string name="incorrect_password_toast">Failed to login: incorrect password</string>
     <string name="login_failed_generic_toast">Failed to login</string>
     <string name="opponent_name">Opponent</string>
-    <string name="title_activity_wait_on_update">WaitOnUpdateActivity</string>
     <string name="waiting_title">Waiting on Player</string>
     <string name="waiting_text">Waiting for your opponent to play&#8230;</string>
     <string name="quit_game">Quit Game</string>
-    <string name="title_activity_wait_on_select">WaitOnSelectActivity</string>
     <string name="menu_Quit">Quit Connection</string>
     <string name="game_not_found">The game has ended</string>
     <string name="network_action_failed">Action failed: no network connection</string>
-    <string name="submit_data_failed">Data submission failed: retrying...</string>
+    <string name="submit_data_failed">Data submission failed: retrying…</string>
 
 </resources>

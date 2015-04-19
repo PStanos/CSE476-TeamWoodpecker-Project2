@@ -7,9 +7,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-/**
- * Created by Ethan on 2/12/15.
- */
 public class SelectionView extends View {
 
 

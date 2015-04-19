@@ -14,9 +14,6 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-/**
- * Created by Ethan on 2/12/15.
- */
 public class Selection {
     /**
      * Percentage of the view width/height that is occupied by the game

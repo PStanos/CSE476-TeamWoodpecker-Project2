@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 
 public class FinalScoreActivity extends ActionBarActivity {
-    Game game;
+    private Game game;
 
     @Override
     protected void onCreate(Bundle bundle) {

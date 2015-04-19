@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
             FileInputStream rememberIn = openFileInput(FILE_REMEMBER);
 
             StringBuffer rememberInRead = new StringBuffer();
-            String rememberString = "";
+            String rememberString;
 
             InputStreamReader rememberInStream = new InputStreamReader(rememberIn);
             BufferedReader rememberInBuff = new BufferedReader(rememberInStream);
@@ -60,7 +60,7 @@ public class MainActivity extends ActionBarActivity {
             rememberInBuff.close();
             String Remember_This = rememberInRead.toString();
 
-            if(Remember_This != "") {
+            if(!Remember_This.equals("")) {
                 String[] Remember_These = Remember_This.split("&", 2);
                 if(Remember_These.length == 2) {
                     EditText username = (EditText) findViewById(R.id.username);
@@ -89,7 +89,7 @@ public class MainActivity extends ActionBarActivity {
         final String password = ((EditText)findViewById(R.id.password)).getText().toString();
 
         if(remember.isChecked()){
-            String rememberInfo = username.toString()+'&'+password.toString();
+            String rememberInfo = username+'&'+password;
             try {
                 FileOutputStream outputStream = openFileOutput(FILE_REMEMBER, Context.MODE_PRIVATE);
                 outputStream.write(rememberInfo.getBytes());
@@ -142,7 +142,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    public void onQuitGame(){
+    private void onQuitGame(){
         // do nothing
     }
 

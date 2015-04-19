@@ -208,8 +208,6 @@ public class Bird implements Serializable {
         parser.nextTag();
         parser.require(XmlPullParser.END_TAG, null, "bird");
 
-        Bird bird = new Bird(context, id, relX, relY);
-
-        return bird;
+        return new Bird(context, id, relX, relY);
     }
 }

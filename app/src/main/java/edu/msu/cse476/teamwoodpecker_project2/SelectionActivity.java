@@ -23,15 +23,13 @@ public class SelectionActivity extends ActionBarActivity {
 
     private Toast noBirdToast;
 
-    private Toast birdSelectedToast;
-
     private static final String LOCAL_NAME = "local_name";
     private static final String LOCAL_PASSWORD = "local_password";
 
     private String userName = null;
     private String password = null;
 
-    Thread submitDataThread;
+    private Thread submitDataThread;
 
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
@@ -95,7 +93,7 @@ public class SelectionActivity extends ActionBarActivity {
                 @Override
                 public void run() {
                     Cloud cloud = new Cloud();
-                    while(!cloud.submitUpdatedGame(act, game, userName, password)) {
+                    while(!cloud.submitUpdatedGame(game, userName, password)) {
 
                         act.runOnUiThread(new Runnable() {
 
@@ -191,11 +189,25 @@ public class SelectionActivity extends ActionBarActivity {
         finish();
     }
 
+    public void onGameEnded() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_selection, menu);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        onQuitGame();
     }
 
     @Override

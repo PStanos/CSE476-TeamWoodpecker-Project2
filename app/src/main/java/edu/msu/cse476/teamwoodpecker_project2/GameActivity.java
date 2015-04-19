@@ -21,7 +21,10 @@ public class GameActivity extends ActionBarActivity {
     private String userName;
     private String password;
 
-    Thread submitDataThread;
+    /**
+     * The thread that is submitting the game data to the server
+     */
+    private Thread submitDataThread;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -70,7 +73,7 @@ public class GameActivity extends ActionBarActivity {
             @Override
             public void run() {
                 Cloud cloud = new Cloud();
-                while(!cloud.submitUpdatedGame(act, gameView.getGame(), userName, password)) {
+                while(!cloud.submitUpdatedGame(gameView.getGame(), userName, password)) {
 
                     act.runOnUiThread(new Runnable() {
 
@@ -100,6 +103,9 @@ public class GameActivity extends ActionBarActivity {
         submitDataThread.start();
     }
 
+    /**
+     * Once game data has been pushed successfully to server, this is called
+     */
     private void onGameDataSubmitted() {
         Bundle bundle = new Bundle();
         gameView.getGame().saveInstanceState(bundle, this);
@@ -136,6 +142,10 @@ public class GameActivity extends ActionBarActivity {
         }
     }
 
+    /**
+     * Update the game with latest data
+     * @param g The latest game data
+     */
     public void updateGame(final Game g){
         gameView.setGame(g);
 
@@ -177,8 +187,9 @@ public class GameActivity extends ActionBarActivity {
         bundle.putString(LOCAL_PASSWORD, password);
     }
 
-
-
+    /**
+     * The current user wants to quit the game
+     */
     public void onQuitGame(){
         new Thread(new Runnable() {
             @Override
@@ -196,6 +207,23 @@ public class GameActivity extends ActionBarActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
         finish();
+    }
+
+    /**
+     * Game ended by other player or through timeout
+     */
+    public void onGameEnded() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        onQuitGame();
     }
 
     @Override

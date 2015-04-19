@@ -10,7 +10,6 @@ import android.view.View;
 
 
 public class AwaitActivity extends ActionBarActivity {
-    Bundle hold;
 
     private static final String LOCAL_NAME = "local_name";
     private static final String LOCAL_PASSWORD = "local_password";
@@ -48,7 +47,7 @@ public class AwaitActivity extends ActionBarActivity {
                     return;
                 }
 
-                Cloud.NewGameResponse response = cloud.waitForGame(getBaseContext(), userName, password);
+                Cloud.NewGameResponse response = cloud.waitForGame(userName, password);
 
                 if(!response.isConnected()) {
                     onGameCreationFailed();
@@ -59,13 +58,18 @@ public class AwaitActivity extends ActionBarActivity {
                     game = new Game(getBaseContext());
                     game.setPlayerNames(response.getUserName1(), response.getUserName2());
 
-                    if(!cloud.submitUpdatedGame(getBaseContext(), game, userName, password)) {
+                    if(!cloud.submitUpdatedGame(game, userName, password)) {
                         onGameCreationFailed();
                         return;
                     }
                 }
                 else {
-                    game = cloud.waitOnOpponent(getBaseContext(), userName, password);
+                    try {
+                        game = cloud.waitOnOpponent(getBaseContext(), userName, password);
+                    }
+                    catch(InterruptedException ex) {
+                        return;
+                    }
 
                     if(game != null) {
                         onPlayersConnected();
@@ -83,7 +87,7 @@ public class AwaitActivity extends ActionBarActivity {
         waitOnGameThread.start();
     }
 
-    public void onPlayersConnected() {
+    private void onPlayersConnected() {
         Bundle bundle = new Bundle();
         game.saveInstanceState(bundle, this);
 
@@ -125,7 +129,7 @@ public class AwaitActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public void onQuitGame(){
+    private void onQuitGame(){
         if(waitOnGameThread.isAlive()) {
             waitOnGameThread.interrupt();
         }

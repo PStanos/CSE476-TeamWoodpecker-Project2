@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import android.widget.Toast;
 
 public class WaitOnUpdateActivity extends DialogFragment {
 
-    Thread serverThread;
+    private Thread serverThread;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -44,7 +43,14 @@ public class WaitOnUpdateActivity extends DialogFragment {
             @Override
             public void run() {
                 Cloud cloud = new Cloud();
-                final Game game = cloud.waitOnOpponent(viewGame.getContext(), (((GameActivity) viewGame.getContext()).getUser()), (((GameActivity) viewGame.getContext()).getPass()));
+                final Game game;
+
+                try {
+                    game = cloud.waitOnOpponent(viewGame.getContext(), (((GameActivity) viewGame.getContext()).getUser()), (((GameActivity) viewGame.getContext()).getPass()));
+                }
+                catch(InterruptedException ex) {
+                    return;
+                }
 
                 if(game == null) {
                     ((GameActivity)viewGame.getContext()).runOnUiThread(new Runnable() {
@@ -52,10 +58,7 @@ public class WaitOnUpdateActivity extends DialogFragment {
                         public void run() {
                             Toast.makeText(viewGame.getContext(), R.string.game_not_found, Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(viewGame.getContext(), MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                            startActivity(intent);
-                            ((GameActivity)viewGame.getContext()).finish();
+                            ((GameActivity)viewGame.getContext()).onGameEnded();
                         }
                     });
 
